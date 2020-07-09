@@ -1,43 +1,27 @@
 # Pull the base image from Alpine
 FROM nginx:alpine AS base
 
-##### DEV BUILD STEPS: COPY PREBUILT CODE INTO CONTAINER #####
+ARG FRONTEND_SOURCE_FOLDER
 
-FROM base AS dev
-RUN echo "Building DEV Install.."
-
-COPY frontend/source /usr/share/nginx/html
-
-##############################################################
-
-##### DEMO BUILD STEPS: BUIL CODE FROM GITHUB ################
-
-FROM base AS demo
-RUN echo "Building DEMO Install..."
+# install dependencies
 RUN apk add --virtual .build-deps --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
  git \
  npm
 
-ARG LOCAL_IP
+RUN echo "Copying Frontend Source..."
+COPY ${FRONTEND_SOURCE_FOLDER} /usr/local/bento-frontend
 
-# clone bento frontend repo
-RUN git clone --single-branch --branch master https://github.com/CBIIT/bento-frontend.git /usr/local/bento-frontend \
- && cd /usr/local/bento-frontend \
- && echo "Passing the backend address as env var:  ${LOCAL_IP}" \
- && echo "REACT_APP_BACKEND_API=http://${LOCAL_IP}:8080/v1/graphql/" > .env \
+RUN cd /usr/local/bento-frontend \
  && npm install \
- && npm install --save https://github.com/skiran86/mui-custom-datatables/tarball/master \
- && cd /usr/local/bento-frontend/node_modules/mui-custom-datatables \
- && npm install \
- && npm run build \
- && cd /usr/local/bento-frontend \
+ && npm run lint -- --fix \
  && npm run build
 
 # Copy website to nginx html dir
 RUN cp -r /usr/local/bento-frontend/dist/* /usr/share/nginx/html
 
 # Cleanup build
-RUN apk del .build-deps \
- && rm -rf /usr/local/bento-frontend
+RUN rm -rf /usr/local/bento-frontend
+#RUN apk del .build-deps \
+# && rm -rf /usr/local/bento-frontend
 
 ##############################################################

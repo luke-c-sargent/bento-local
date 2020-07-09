@@ -5,38 +5,24 @@ services:
     build:
       context: .
       dockerfile: ./backend/Dockerfile
-      target: ${BACK_ENV}
       args:
+        BACKEND_SOURCE_FOLDER: ${BACKEND_SOURCE_FOLDER}
         NEO4J_USER: ${NEO4J_USER}
         NEO4J_PASS: ${NEO4J_PASS}
     ports:
       - 8080:8080
     restart: always
 
-    # logging:
-    #   driver: sumologic
-    #   options:
-    #     sumo-url: "https://"
-    # environment:
-    # - NEW_RELIC_LICENSE_KEY={{ newrelic_license_key }}
-    # - NEW_RELIC_APP_NAME={{ app_name }}
-
   bento-frontend:
     container_name: frontend
     build:
       context: .
       dockerfile: ./frontend/Dockerfile
-      target: ${FRONT_ENV}
       args:
-        LOCAL_IP: ${BACKEND_IP}
+        FRONTEND_SOURCE_FOLDER: ${FRONTEND_SOURCE_FOLDER}
     ports:
       - 80:80
     restart: always
-
-    # logging:
-    #   driver: sumologic
-    #   options:
-    #     sumo-url: "https://"
 
   neo4j:
     container_name: neo4j
