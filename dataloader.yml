@@ -1,0 +1,16 @@
+version: '3.4'
+services:
+  bento-dataloader:
+    container_name: dataloader
+    build:
+      context: .
+      dockerfile: ./dataloader/Dockerfile
+      args:
+        BACKEND_SOURCE_FOLDER: ${BACKEND_SOURCE_FOLDER}
+        NEO4J_PASS: ${NEO4J_PASS}
+    networks:
+      - bento-local_bento
+
+networks:
+  bento-local_bento:
+    external: true

@@ -45,7 +45,7 @@ RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
 ENV MAVEN_HOME /usr/share/maven
 ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
 
-# clone bento backend repo and fix config file for local connection
+# Copy bento backend repo and fix config file for local connection
 ARG NEO4J_USER
 ARG NEO4J_PASS
 ARG BACKEND_SOURCE_FOLDER
@@ -68,7 +68,6 @@ RUN rm -rf ${CATALINA_HOME}/webapps/ROOT/ \
  && cp /usr/local/bento-backend/target/*.war ${CATALINA_HOME}/webapps/ROOT.war
 
 # Cleanup build
-RUN rm -rf /usr/local/bento-backend
 #RUN rm -rf ${MAVEN_HOME} \
 # && rm -rf /usr/local/bento-backend
 

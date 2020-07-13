@@ -9,6 +9,8 @@ services:
         BACKEND_SOURCE_FOLDER: ${BACKEND_SOURCE_FOLDER}
         NEO4J_USER: ${NEO4J_USER}
         NEO4J_PASS: ${NEO4J_PASS}
+    networks:
+      - bento
     ports:
       - 8080:8080
     restart: always
@@ -20,6 +22,8 @@ services:
       dockerfile: ./frontend/Dockerfile
       args:
         FRONTEND_SOURCE_FOLDER: ${FRONTEND_SOURCE_FOLDER}
+    networks:
+      - bento
     ports:
       - 80:80
     restart: always
@@ -35,6 +39,8 @@ services:
     volumes:
       - neo4j-data:/data
       - neo4j-logs:/logs
+    networks:
+      - bento
     ports:
       - 7474:7474
       - 7687:7687
@@ -42,3 +48,7 @@ services:
 volumes:
   neo4j-data:
   neo4j-logs:
+
+networks:
+  bento:
+    driver: bridge
