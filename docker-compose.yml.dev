@@ -1,0 +1,57 @@
+version: '3.4'
+services:
+  bento-backend:
+    container_name: backend
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+      args:
+        BACKEND_SOURCE_FOLDER: ${BACKEND_SOURCE_FOLDER}
+        NEO4J_USER: ${NEO4J_USER}
+        NEO4J_PASS: ${NEO4J_PASS}
+    networks:
+      - bento
+    ports:
+      - 8080:8080
+    restart: always
+
+  bento-frontend:
+    container_name: frontend
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+      args:
+        FRONTEND_SOURCE_FOLDER: ${FRONTEND_SOURCE_FOLDER}
+    volumes:
+      - ./${FRONTEND_SOURCE_FOLDER}:/usr/local/bento-frontend
+      - /usr/local/bento-frontend/node_modules
+    networks:
+      - bento
+    ports:
+      - 80:3000
+    restart: always
+
+  neo4j:
+    container_name: neo4j
+    build:
+      context: .
+      dockerfile: ./neo4j/Dockerfile
+    environment:
+      - NEO4J_ACCEPT_LICENSE_AGREEMENT=yes
+      - NEO4J_AUTH=${NEO4J_USER}/${NEO4J_PASS}
+    volumes:
+      - neo4j-data:/data
+      - neo4j-logs:/logs
+    networks:
+      - bento
+    ports:
+      - 7474:7474
+      - 7687:7687
+
+volumes:
+  neo4j-data:
+  neo4j-logs:
+
+networks:
+  bento:
+    driver: bridge

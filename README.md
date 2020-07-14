@@ -54,11 +54,11 @@ To clean docker objects for all stopped containers (this command can be used to 
 
 	docker system prune -a
 
-clean all docker volumes (NOTE: this will remove any data loaded into Neo4j):
+TO clean all docker volumes (NOTE: this will remove any data loaded into Neo4j):
 
 	docker system prune --volumes
 
-attach a shell to a running container:
+To attach a shell to a running container:
 
 	docker exec -it <container name> /bin/bash   (use /bin/ash for frontend and backend containers as they are based on alpine)
 
@@ -71,4 +71,7 @@ Notes on script behavior:
 	BACKEND_SOURCE_FOLDER=<value>  set to your local copy of the backend code - NOTE: this MUST be located within the bento-local folder
 	NEO4J_USER=<value>  the user name to set for Neo4j
 	NEO4J_PASS=<value>  the password to set for Neo4j
-	
+
+	- For the Bento Frontend there is a "dev" mode that will show any changes made to the bento-frontend source files as live updates on its website. To build the dev
+	  container rename 'bento-local/docker-compose.yml.dev' to 'bento-local/docker-compose.yml' and 'bento-local/frontend/Dockerfile.dev' to 'bento-local/frontend/Dockerfile'.
+	  Note that you will need to rename or remove existing files to do this.

@@ -16,7 +16,8 @@ RUN mkdir /usr/local/bento-frontend
 COPY ${FRONTEND_SOURCE_FOLDER}/package.json /usr/local/bento-frontend
 
 RUN cd /usr/local/bento-frontend \
- && npm install
+ && npm install \
+ && npm cache clean
 
 RUN echo "Copying Frontend Source..."
 COPY ${FRONTEND_SOURCE_FOLDER} /usr/local/bento-frontend
