@@ -5,3 +5,5 @@ The scripts for this project are separated into three different modes:
 	1. build mode:  this will create production ready Docker containers for the frontend and backend bento projects
 	2. dev mode:  this will create Docker containers for the frontend and backend bento projects suitable for local development
 	3. demo mode: this will load pre-configured bento containers
+
+To run a local bento environment launch it from within the folder for your desired mode.
