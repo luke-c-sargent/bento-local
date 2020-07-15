@@ -67,10 +67,6 @@ RUN cd /usr/local/bento-backend \
 RUN rm -rf ${CATALINA_HOME}/webapps/ROOT/ \
  && cp /usr/local/bento-backend/target/*.war ${CATALINA_HOME}/webapps/ROOT.war
 
-# Cleanup build
-#RUN rm -rf ${MAVEN_HOME} \
-# && rm -rf /usr/local/bento-backend
-
 USER ${TOMCAT_USER}
 
 EXPOSE 8080

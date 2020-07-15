@@ -9,8 +9,8 @@ services:
         BACKEND_SOURCE_FOLDER: ${BACKEND_SOURCE_FOLDER}
         NEO4J_PASS: ${NEO4J_PASS}
     networks:
-      - bento-local_bento
+      - dev_mode_bento
 
 networks:
-  bento-local_bento:
+  dev_mode_bento:
     external: true

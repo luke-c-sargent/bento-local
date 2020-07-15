@@ -17,8 +17,7 @@ COPY ${FRONTEND_SOURCE_FOLDER}/package.json /usr/local/bento-frontend
 
 WORKDIR /usr/local/bento-frontend
 
-RUN npm install \
- && npm cache clean
+RUN npm install
 
 EXPOSE 3000
 CMD [ "npm", "start" ]

@@ -1,4 +1,4 @@
-Bento-local Build Mode: This mode creates production ready builds of the bento-forntend and bento-backend containers.
+Bento-local Dev Mode: This mode creates development builds of the bento-forntend and bento-backend containers. Note that for the bento-frontend site the page will update live with changes to your local code.
 
 The bento-local files can be used to create a local bento environment using docker-compose. This will create all required services and prepare the db to have data loaded.
 There is also a dataloader component that can be used to load a locally stored dataset into the local Neo4j instance used by bento-local.
@@ -73,3 +73,7 @@ Notes on script behavior:
 	BACKEND_SOURCE_FOLDER=<value>  set to your local copy of the backend code - NOTE: this MUST be located within the bento-local folder
 	NEO4J_USER=<value>  the user name to set for Neo4j
 	NEO4J_PASS=<value>  the password to set for Neo4j
+
+	- For the Bento Frontend there is a "dev" mode that will show any changes made to the bento-frontend source files as live updates on its website. To build the dev
+	  container rename 'bento-local/docker-compose.yml.dev' to 'bento-local/docker-compose.yml' and 'bento-local/frontend/Dockerfile.dev' to 'bento-local/frontend/Dockerfile'.
+	  Note that you will need to rename or remove existing files to do this.
