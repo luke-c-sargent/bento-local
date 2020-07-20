@@ -7,8 +7,7 @@ RUN apt-get update \
  && apt-get install -y python3 python3-pip git curl
 
 RUN echo "cloning dataloader code" \
- && git clone --single-branch --branch Bento --recurse-submodules -j8 https://github.com/CBIIT/icdc-dataloader.git /usr/local/icdc_dataloader \
-## && git clone --single-branch --branch bento_core_data_model_tailorx_extension https://github.com/CBIIT/bento-model.git /usr/local/bento-model \
+ && git clone --single-branch --branch master --recurse-submodules -j8 https://github.com/CBIIT/icdc-dataloader.git /usr/local/icdc_dataloader \
  && cd /usr/local/icdc_dataloader \
  && pip3 install -r requirements.txt
 
