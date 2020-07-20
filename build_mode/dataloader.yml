@@ -7,6 +7,8 @@ services:
       dockerfile: ./dataloader/Dockerfile
       args:
         BACKEND_SOURCE_FOLDER: ${BACKEND_SOURCE_FOLDER}
+        BENTO_DATA_MODEL: ${BENTO_DATA_MODEL}
+        NEO4J_USER: ${NEO4J_USER}
         NEO4J_PASS: ${NEO4J_PASS}
     networks:
       - build_mode_bento

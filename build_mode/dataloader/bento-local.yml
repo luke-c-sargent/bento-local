@@ -6,10 +6,10 @@ Config:
     # Location of Neo4j server, e.g., bolt://127.0.0.1:7687
     #uri: bolt://127.0.0.1:7687
     uri: bolt://neo4j:7687
-    # Neo4j username
-    user: 
-    # Neo4j password
-    password: 
+    # Neo4j username - this value will be taken from the .env file
+    user: %NEO4J_USER%
+    # Neo4j password - this value will be taken from the .env file
+    password: %NEO4J_PASS%
 
   # Schema files' locations
   schema:
