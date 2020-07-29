@@ -4,7 +4,7 @@ services:
     container_name: backend
     build:
       context: .
-      dockerfile: ./backend/Dockerfile
+      dockerfile: ./dockerfiles/backend
       args:
         BACKEND_SOURCE_FOLDER: ${BACKEND_SOURCE_FOLDER}
         NEO4J_USER: ${NEO4J_USER}
@@ -19,7 +19,7 @@ services:
     container_name: frontend
     build:
       context: .
-      dockerfile: ./frontend/Dockerfile
+      dockerfile: ./dockerfiles/frontend
       args:
         FRONTEND_SOURCE_FOLDER: ${FRONTEND_SOURCE_FOLDER}
     volumes:
@@ -35,7 +35,7 @@ services:
     container_name: neo4j
     build:
       context: .
-      dockerfile: ./neo4j/Dockerfile
+      dockerfile: ./dockerfiles/neo4j
     environment:
       - NEO4J_ACCEPT_LICENSE_AGREEMENT=yes
       - NEO4J_AUTH=${NEO4J_USER}/${NEO4J_PASS}
