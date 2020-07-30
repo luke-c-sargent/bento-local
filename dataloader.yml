@@ -11,8 +11,8 @@ services:
         NEO4J_USER: ${NEO4J_USER}
         NEO4J_PASS: ${NEO4J_PASS}
     networks:
-      - dev_mode_bento
+      - bento-local_bridge
 
 networks:
-  dev_mode_bento:
+  bento-local_bridge:
     external: true
