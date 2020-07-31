@@ -16,7 +16,7 @@ fi
 
 read -p "use demo data [default=$USE_DEMO_DATA]: " user_data
   : ${user_data:=$USE_DEMO_DATA}; USE_DEMO_DATA=$user_data
-read -p "set bento-frontend branch [default=$BACKEND_BRANCH]: " user_data
+read -p "set bento-backend branch [default=$BACKEND_BRANCH]: " user_data
   : ${user_data:=$BACKEND_BRANCH}; BACKEND_BRANCH=$user_data
 read -p "set bento-frontend branch [default=$FRONTEND_BRANCH]: " user_data
   : ${user_data:=$FRONTEND_BRANCH}; FRONTEND_BRANCH=$user_data
