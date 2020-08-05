@@ -1,5 +1,5 @@
 # Pull the base image from Neo4j
-FROM neo4j:3.5.14-enterprise
+FROM neo4j:3.5.14
 
 # Download and install GraphQL
 ARG GRAPHQL_VERSION=3.5.0.4
