@@ -22,7 +22,7 @@ set /p MODEL_BRANCH="set bento-model branch [%MODEL_BRANCH%]: "
 echo.
 
 IF EXIST %ROOT_PATH%\%BACKEND_SOURCE_FOLDER% (
-echo The backend repository is already initialized in:  %BACKEND_SOURCE_FOLDER%. Please remove this folder and re-initialize the project.
+echo The backend repository is already initialized in:  %ROOT_PATH%\%BACKEND_SOURCE_FOLDER%. Please remove this folder and re-initialize the project.
 ) ELSE (
 echo Cloning bento-backend repository:  %BACKEND_BRANCH% branch
 git clone -b %BACKEND_BRANCH% --single-branch https://github.com/CBIIT/bento-backend.git %ROOT_PATH%\%BACKEND_SOURCE_FOLDER% >nul 2>&1
@@ -35,7 +35,7 @@ echo.
 )
 
 IF EXIST %ROOT_PATH%\%FRONTEND_SOURCE_FOLDER% (
-echo The frontend repository is already initialized in:  %FRONTEND_SOURCE_FOLDER%. Please remove this folder and re-initialize the project.
+echo The frontend repository is already initialized in:  %ROOT_PATH%\%FRONTEND_SOURCE_FOLDER%. Please remove this folder and re-initialize the project.
 ) ELSE (
 echo Cloning bento-frontend repository:  %FRONTEND_BRANCH% branch
 git clone -b %FRONTEND_BRANCH% --single-branch https://github.com/CBIIT/bento-frontend.git %ROOT_PATH%\%FRONTEND_SOURCE_FOLDER% >nul 2>&1
@@ -48,7 +48,7 @@ echo.
 )
 
 IF EXIST %ROOT_PATH%\%BENTO_DATA_MODEL% (
-echo The model repository is already initialized in:  %BENTO_DATA_MODEL%. Please remove this folder and re-initialize the project.
+echo The model repository is already initialized in:  %ROOT_PATH%\%BENTO_DATA_MODEL%. Please remove this folder and re-initialize the project.
 ) ELSE (
 echo Cloning bento-model repository:  %MODEL_BRANCH% branch
 git clone -b %MODEL_BRANCH% --single-branch https://github.com/CBIIT/BENTO-TAILORx-model.git %ROOT_PATH%\%BENTO_DATA_MODEL% >nul 2>&1
@@ -62,7 +62,7 @@ echo.
 
 IF /I "%USE_DEMO_DATA%"=="yes" (
 IF EXIST %ROOT_PATH%\data (
-echo The bento-local project already has a data folder defined. Please remove this folder and re-initialize the project.
+echo The bento-local project already has a data folder defined at %ROOT_PATH%\data. Please remove this folder and re-initialize the project.
 ) ELSE (
 echo Seeding project with demo data
 robocopy ..\demo_data %ROOT_PATH%\data /E >nul 2>&1
@@ -77,10 +77,13 @@ IF EXIST %ROOT_PATH%\data (
 echo The bento-local project already has a data folder defined. Please remove this folder and re-initialize the project.
 ) ELSE (
 mkdir %ROOT_PATH%\data >nul 2>&1
-IF %ERRORLEVEL% GTR 7 (
+IF ERRORLEVEL 1 (
 echo ERROR CREATING DATA FOLDER: %ROOT_PATH%\data - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE RUNNING THE BENTO DATALOADER
 ) ELSE (
 echo Created data folder: %ROOT_PATH%\data - this folder should be populated with data prior to running the bento dataloader.
 )
 )
 )
+
+REM // Hold the script open until the user quits
+pause
