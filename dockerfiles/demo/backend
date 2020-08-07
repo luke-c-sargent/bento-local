@@ -1,0 +1,6 @@
+# Pull the base image from cbiitssrepo
+FROM cbiitssrepo/bento-local-backend:initial
+MAINTAINER ESI Devops Team
+
+EXPOSE 8080
+CMD ["catalina.sh","run"]

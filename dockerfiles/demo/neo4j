@@ -15,8 +15,7 @@ RUN echo "Downloading GraphQL ${GRAPHQL_VERSION}" \
  && echo "dbms.directories.plugins=plugins" >> /var/lib/neo4j/conf/neo4j.conf
 
 ### Copy required files and scripts for seeding data
-COPY dockerfiles/scripts/wrapper.sh dockerfiles/scripts/seed_data.sh data/data.cyphe[r] .
-
-RUN if [ -f data.cypher ]; then mv data.cypher /var/lib/neo4j/import/; fi
+COPY dockerfiles/demo/data.cypher /var/lib/neo4j/import/
+COPY dockerfiles/scripts/wrapper.sh dockerfiles/scripts/seed_data.sh .
 
 ENTRYPOINT ["./wrapper.sh"]

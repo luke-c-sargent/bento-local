@@ -45,7 +45,7 @@ then
   echo "The bento-model repository is already initialized in:  $BENTO_DATA_MODEL. Please remove this folder and re-initialize the project."
 else
   echo "Cloning bento-model repository:  $MODEL_BRANCH branch"
-  git clone -b "$MODEL_BRANCH" --single-branch https://github.com/CBIIT/bento-model.git "../../$BENTO_DATA_MODEL"
+  git clone -b "$MODEL_BRANCH" --single-branch https://github.com/CBIIT/BENTO-TAILORx-model.git "../../$BENTO_DATA_MODEL"
 fi
 
 if [[ $USE_DEMO_DATA == "yes" ]]
@@ -57,4 +57,6 @@ then
     echo Seeding project with demo data
 	cp -R ../demo_data ../../data
   fi
+else
+mkdir ../../data
 fi

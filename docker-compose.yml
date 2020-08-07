@@ -9,6 +9,9 @@ services:
         BACKEND_SOURCE_FOLDER: ${BACKEND_SOURCE_FOLDER}
         NEO4J_USER: ${NEO4J_USER}
         NEO4J_PASS: ${NEO4J_PASS}
+    depends_on:
+      - neo4j
+      - bento-frontend
     networks:
       - bridge
     ports:
@@ -40,6 +43,7 @@ services:
     environment:
       - NEO4J_ACCEPT_LICENSE_AGREEMENT=yes
       - NEO4J_AUTH=${NEO4J_USER}/${NEO4J_PASS}
+      - NEO4J_PASS=${NEO4J_PASS}
     volumes:
       - neo4j-data:/data
       - neo4j-logs:/logs

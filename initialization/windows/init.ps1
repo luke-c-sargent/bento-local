@@ -102,3 +102,6 @@ if ( $($properties.USE_DEMO_DATA) -eq "yes" ) {
 
           }
       }
+	  
+Write-Host "Press any key to continue..."
+$Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")

@@ -1,0 +1,3 @@
+# Pull the base image from cbiitssrepo
+FROM cbiitssrepo/bento-local-frontend:initial
+MAINTAINER ESI Devops Team
