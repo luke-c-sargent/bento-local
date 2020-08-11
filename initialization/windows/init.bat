@@ -34,10 +34,23 @@ echo Created backend source folder: %ROOT_PATH%\%BACKEND_SOURCE_FOLDER%
 echo.
 )
 
+>nul 2>&1 dir /a-d %ROOT_PATH%\%FRONTEND_SOURCE_FOLDER% && (set EMPTY_DIR=0) || (set EMPTY_DIR=1)
+
 IF EXIST %ROOT_PATH%\%FRONTEND_SOURCE_FOLDER% (
+IF %EMPTY_DIR% == 0 (
+set FRONT_INIT=1 
+) ELSE (
+set FRONT_INIT=0
+)
+) ELSE (
+set FRONT_INIT=0
+)
+
+IF %FRONT_INIT% == 1 (
 echo The frontend repository is already initialized in:  %ROOT_PATH%\%FRONTEND_SOURCE_FOLDER%. Please remove this folder and re-initialize the project.
 ) ELSE (
 echo Cloning bento-frontend repository:  %FRONTEND_BRANCH% branch
+IF EXIST %ROOT_PATH%\%FRONTEND_SOURCE_FOLDER% ( rmdir /s /q %ROOT_PATH%\%FRONTEND_SOURCE_FOLDER% ) 
 git clone -b %FRONTEND_BRANCH% --single-branch https://github.com/CBIIT/bento-frontend.git %ROOT_PATH%\%FRONTEND_SOURCE_FOLDER% >nul 2>&1
 IF ERRORLEVEL 1 (
 echo ERROR CREATING FRONTEND SOURCE FOLDER: %ROOT_PATH%\%FRONTEND_SOURCE_FOLDER% - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL

@@ -40,11 +40,12 @@ if ( Test-Path -Path "$projectPath\$($properties.BACKEND_SOURCE_FOLDER)" ) {
 	write-host
     }
 
-if ( Test-Path -Path "$projectPath\$($properties.FRONTEND_SOURCE_FOLDER)" ) {
+if ( (Test-Path -Path "$projectPath\$($properties.FRONTEND_SOURCE_FOLDER)") -And ((Get-ChildItem -Path "$projectPath\$($properties.FRONTEND_SOURCE_FOLDER)" -file | Measure-Object).count -ne 0) ) {
   write-host "The frontend repository is already initialized in:  $projectPath\$($properties.FRONTEND_SOURCE_FOLDER). Please remove this folder and re-initialize the project."
   write-host
   } else {
     write-host "Cloning bento-frontend repository:  $($properties.FRONTEND_BRANCH) branch"
+	if ( Test-Path -Path "$projectPath\$($properties.FRONTEND_SOURCE_FOLDER)" ) { Remove-Item -Recurse -Force $projectPath\$($properties.FRONTEND_SOURCE_FOLDER) }
 	git clone -qb $($properties.FRONTEND_BRANCH) --single-branch https://github.com/CBIIT/bento-frontend.git $projectPath\$($properties.FRONTEND_SOURCE_FOLDER)
 	if ( $lastexitcode -ne 0 ) {
 	  write-host "ERROR CREATING FRONTEND SOURCE FOLDER: $projectPath\$($properties.FRONTEND_SOURCE_FOLDER) - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL"
@@ -104,4 +105,4 @@ if ( $($properties.USE_DEMO_DATA) -eq "yes" ) {
       }
 	  
 Write-Host "Press any key to continue..."
-$Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+$Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown") | Out-Null
