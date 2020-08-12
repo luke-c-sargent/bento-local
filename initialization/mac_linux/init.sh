@@ -1,6 +1,7 @@
 #/bin/sh
 
-configfile="../../.env"
+projectPath=$(readlink -m ../..)
+configfile="$projectPath/.env"
 
 while IFS='=' read -r key value; do
   if [[ !( -z "${key}") ]]; then
@@ -22,41 +23,47 @@ read -p "set bento-frontend branch [default=$FRONTEND_BRANCH]: " user_data
   : ${user_data:=$FRONTEND_BRANCH}; FRONTEND_BRANCH=$user_data
 read -p "set bento-model branch [default=$MODEL_BRANCH]: " user_data
   : ${user_data:=$MODEL_BRANCH}; MODEL_BRANCH=$user_data
+echo ""
 
-
-if [[ -d "../../$BACKEND_SOURCE_FOLDER" ]]
+if [[ -d "$projectPath/$BACKEND_SOURCE_FOLDER" ]]
 then
-  echo "The backend repository is already initialized in:  $BACKEND_SOURCE_FOLDER. Please remove this folder and re-initialize the project."
+  echo "The backend repository is already initialized in:  $projectPath/$BACKEND_SOURCE_FOLDER. Please remove this folder and re-initialize the project."
+  echo ""
 else
   echo "Cloning bento-backend repository:  $BACKEND_BRANCH branch"
-  git clone -b "$BACKEND_BRANCH" --single-branch https://github.com/CBIIT/bento-backend.git "../../$BACKEND_SOURCE_FOLDER"
+  git clone -b "$BACKEND_BRANCH" --single-branch https://github.com/CBIIT/bento-backend.git "$projectPath/$BACKEND_SOURCE_FOLDER" &> /dev/null && echo "Created backend source folder: $projectPath/$BACKEND_SOURCE_FOLDER" || echo "ERROR CREATING BACKEND SOURCE FOLDER: $projectPath/$BACKEND_SOURCE_FOLDER - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL"
+  echo ""
 fi
 
-if [[ -d "../../$FRONTEND_SOURCE_FOLDER" ]]
+if [[ -d "$projectPath/$FRONTEND_SOURCE_FOLDER" ]]
 then
-  echo "The frontend repository is already initialized in:  $FRONTEND_SOURCE_FOLDER. Please remove this folder and re-initialize the project."
+  echo "The frontend repository is already initialized in:  $projectPath/$FRONTEND_SOURCE_FOLDER. Please remove this folder and re-initialize the project."
+  echo ""
 else
   echo "Cloning bento-frontend repository:  $FRONTEND_BRANCH branch"
-  git clone -b "$FRONTEND_BRANCH" --single-branch https://github.com/CBIIT/bento-frontend.git "../../$FRONTEND_SOURCE_FOLDER"
+  git clone -b "$FRONTEND_BRANCH" --single-branch https://github.com/CBIIT/bento-frontend.git "$projectPath/$FRONTEND_SOURCE_FOLDER" &> /dev/null && echo "Created frontend source folder: $projectPath/$FRONTEND_SOURCE_FOLDER" || echo "ERROR CREATING FRONTEND SOURCE FOLDER: $projectPath/$FRONTEND_SOURCE_FOLDER - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL"
+  echo ""
 fi
 
-if [[ -d "../../$BENTO_DATA_MODEL" ]]
+if [[ -d "$projectPath/$BENTO_DATA_MODEL" ]]
 then
-  echo "The bento-model repository is already initialized in:  $BENTO_DATA_MODEL. Please remove this folder and re-initialize the project."
+  echo "The data model repository is already initialized in:  $projectPath/$BENTO_DATA_MODEL. Please remove this folder and re-initialize the project."
+  echo ""
 else
   echo "Cloning bento-model repository:  $MODEL_BRANCH branch"
-  git clone -b "$MODEL_BRANCH" --single-branch https://github.com/CBIIT/BENTO-TAILORx-model.git "../../$BENTO_DATA_MODEL"
+  git clone -b "$MODEL_BRANCH" --single-branch https://github.com/CBIIT/BENTO-TAILORx-model.git "$projectPath/$BENTO_DATA_MODEL" &> /dev/null && echo "Created model folder: $projectPath/$BENTO_DATA_MODEL" || echo "ERROR CREATING BENTO MODEL FOLDER: $projectPath/$BENTO_DATA_MODEL - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE RUNNING THE BENTO DATALOADER"
+  echo ""
 fi
 
 if [[ $USE_DEMO_DATA == "yes" ]]
 then
-  if [[ -d "../../data" ]]
+  if [[ -d "$projectPath/data" ]]
   then
     echo "The bento-local project already has a data folder defined. Please remove this folder and re-initialize the project."
   else
     echo Seeding project with demo data
-	cp -R ../demo_data ../../data
+	cp -R ../demo_data $projectPath/data &> /dev/null && echo "Created data folder: $projectPath/data" || echo "ERROR CREATING DATA FOLDER: $projectPath\data - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE RUNNING THE BENTO DATALOADER"
   fi
 else
-mkdir ../../data
+mkdir $projectPath/data &> /dev/null
 fi
