@@ -12,6 +12,7 @@ for /f "eol=# delims=" %%x in (%ROOT_PATH%\.env) do (set "%%x")
 where git >nul 2>nul
 if %errorlevel% neq 0 (
     @echo ERROR: git is not found in your path. Please install git before running the initialization script.
+	pause
 	exit /b %errorlevel%
 )
 

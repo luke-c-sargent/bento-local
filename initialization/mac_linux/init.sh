@@ -35,12 +35,13 @@ else
   echo ""
 fi
 
-if [[ -d "$projectPath/$FRONTEND_SOURCE_FOLDER" ]]
+if [[ -d "$projectPath/$FRONTEND_SOURCE_FOLDER" ]] && [[ -n "$(find $projectPath/$FRONTEND_SOURCE_FOLDER -maxdepth 1 -type f 2>/dev/null)" ]]
 then
   echo "The frontend repository is already initialized in:  $projectPath/$FRONTEND_SOURCE_FOLDER. Please remove this folder and re-initialize the project."
   echo ""
 else
   echo "Cloning bento-frontend repository:  $FRONTEND_BRANCH branch"
+  if [[ -d "$projectPath/$FRONTEND_SOURCE_FOLDER" ]]; then rm -rf $projectPath/$FRONTEND_SOURCE_FOLDER; fi
   git clone -b "$FRONTEND_BRANCH" --single-branch https://github.com/CBIIT/bento-frontend.git "$projectPath/$FRONTEND_SOURCE_FOLDER" &> /dev/null && echo "Created frontend source folder: $projectPath/$FRONTEND_SOURCE_FOLDER" || echo "ERROR CREATING FRONTEND SOURCE FOLDER: $projectPath/$FRONTEND_SOURCE_FOLDER - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL"
   echo ""
 fi

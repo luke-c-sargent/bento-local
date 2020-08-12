@@ -17,6 +17,7 @@ try
 catch [System.Management.Automation.CommandNotFoundException]
 {
     write-host "ERROR: git is not found in your path. Please install git before running the initialization script."
+	$Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown") | Out-Null
 	exit
 }
 
