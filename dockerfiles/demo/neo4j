@@ -7,7 +7,7 @@ ARG NEO4J_PLUGIN_DIR="/var/lib/neo4j/plugins"
 ARG GRAPHQL_URL=https://github.com/neo4j-graphql/neo4j-graphql/releases/download/${GRAPHQL_VERSION}
 
 RUN apt-get update \
- && apt-get install -y wget
+ && apt-get install -y wget dos2unix
 
 RUN echo "Downloading GraphQL ${GRAPHQL_VERSION}" \
  && wget -O ${NEO4J_PLUGIN_DIR}/neo4j-graphql-${GRAPHQL_VERSION}.jar ${GRAPHQL_URL}/neo4j-graphql-${GRAPHQL_VERSION}.jar \
@@ -17,5 +17,7 @@ RUN echo "Downloading GraphQL ${GRAPHQL_VERSION}" \
 ### Copy required files and scripts for seeding data
 COPY dockerfiles/demo/data.cypher /var/lib/neo4j/import/
 COPY dockerfiles/scripts/wrapper.sh dockerfiles/scripts/seed_data.sh .
+RUN dos2unix wrapper.sh
+RUN dos2unix seed_data.sh
 
 ENTRYPOINT ["./wrapper.sh"]
