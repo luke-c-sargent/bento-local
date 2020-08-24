@@ -17,9 +17,9 @@ RUN echo "Downloading GraphQL ${GRAPHQL_VERSION}" \
 ### Copy required files and scripts for seeding data
 COPY dockerfiles/scripts/wrapper.sh dockerfiles/scripts/seed_data.sh data/data.cyphe[r] ./
 RUN dos2unix wrapper.sh \
- && chown root:root wrapper.sh
+ && chmod +x wrapper.sh
 RUN dos2unix seed_data.sh
- && chown root:root seed_data.sh
+ && chmod +x seed_data.sh
 
 RUN if [ -f data.cypher ]; then mv data.cypher /var/lib/neo4j/import/; fi
 
