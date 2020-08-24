@@ -13,8 +13,8 @@ Config:
 
   # Schema files' locations
   schema:
-    - ../bento-model/model-desc/bento_model_file.yaml
-    - ../bento-model/model-desc/bento_model_properties.yaml
+    - ../bento-model/model-desc/bento_tailorx_model_file.yaml
+    - ../bento-model/model-desc/bento_tailorx_model_properties.yaml
 
   #Property file location
   prop_file: config/props-bento-ext.yml
