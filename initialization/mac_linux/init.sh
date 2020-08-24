@@ -1,6 +1,6 @@
 #/bin/sh
 
-projectPath=$(readlink -m ../..)
+projectPath=$( cd "$(dirname "../../.")"; pwd -P )
 configfile="$projectPath/.env"
 
 while IFS='=' read -r key value; do
