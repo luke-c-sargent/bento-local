@@ -1,4 +1,4 @@
-FROM nginx:alpine AS base
+FROM alpine:latest AS build
 MAINTAINER ESI Devops Team
 
 # install dependencies
@@ -15,19 +15,14 @@ RUN mkdir /usr/local/bento-frontend
 
 COPY ${FRONTEND_SOURCE_FOLDER}/package.json /usr/local/bento-frontend
 
-RUN cd /usr/local/bento-frontend \
- && npm install
+RUN (export NODE_OPTIONS="--max-old-space-size=2048" && cd /usr/local/bento-frontend && exec npm install)
 
-#RUN echo "Copying Frontend Source..."
+RUN echo "Copying Frontend Source..."
 COPY ${FRONTEND_SOURCE_FOLDER} /usr/local/bento-frontend
 
-RUN cd /usr/local/bento-frontend \
- && npm run lint -- --fix \
- && npm run build
+RUN (export NODE_OPTIONS="--max-old-space-size=2048" && cd /usr/local/bento-frontend && exec npm run lint-fix)
+RUN (export NODE_OPTIONS="--max-old-space-size=2048" && cd /usr/local/bento-frontend && exec npm run build)
 
-RUN echo "Copy website to nginx html dir..."
-RUN cp -r /usr/local/bento-frontend/dist/* /usr/share/nginx/html
+FROM nginx:alpine AS final
 
-# Cleanup build
-RUN apk del .build-deps \
- && rm -rf /usr/local/bento-frontend
+COPY --from=build /usr/local/bento-frontend/dist /usr/share/nginx/html
