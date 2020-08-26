@@ -17,10 +17,16 @@ fi
 
 read -p "use demo data [default=$USE_DEMO_DATA]: " user_data
   : ${user_data:=$USE_DEMO_DATA}; USE_DEMO_DATA=$user_data
+read -p "set bento-backend repository [default=$BACKEND_REPO]: " user_data
+  : ${user_data:=$BACKEND_REPO}; BACKEND_REPO=$user_data
 read -p "set bento-backend branch [default=$BACKEND_BRANCH]: " user_data
   : ${user_data:=$BACKEND_BRANCH}; BACKEND_BRANCH=$user_data
+read -p "set bento-frontend repository [default=$FRONTEND_REPO]: " user_data
+  : ${user_data:=$FRONTEND_REPO}; FRONTEND_REPO=$user_data
 read -p "set bento-frontend branch [default=$FRONTEND_BRANCH]: " user_data
   : ${user_data:=$FRONTEND_BRANCH}; FRONTEND_BRANCH=$user_data
+read -p "set bento-model repository [default=$MODEL_REPO]: " user_data
+  : ${user_data:=$MODEL_REPO}; MODEL_REPO=$user_data
 read -p "set bento-model branch [default=$MODEL_BRANCH]: " user_data
   : ${user_data:=$MODEL_BRANCH}; MODEL_BRANCH=$user_data
 echo ""
@@ -31,7 +37,7 @@ then
   echo ""
 else
   echo "Cloning bento-backend repository:  $BACKEND_BRANCH branch"
-  git clone -b "$BACKEND_BRANCH" --single-branch https://github.com/CBIIT/bento-backend.git "$projectPath/$BACKEND_SOURCE_FOLDER" &> /dev/null && echo "Created backend source folder: $projectPath/$BACKEND_SOURCE_FOLDER" || echo "ERROR CREATING BACKEND SOURCE FOLDER: $projectPath/$BACKEND_SOURCE_FOLDER - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL"
+  git clone -b "$BACKEND_BRANCH" --single-branch "$BACKEND_REPO" "$projectPath/$BACKEND_SOURCE_FOLDER" &> /dev/null && echo "Created backend source folder: $projectPath/$BACKEND_SOURCE_FOLDER" || echo "ERROR CREATING BACKEND SOURCE FOLDER: $projectPath/$BACKEND_SOURCE_FOLDER - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL"
   echo ""
 fi
 
@@ -42,7 +48,7 @@ then
 else
   echo "Cloning bento-frontend repository:  $FRONTEND_BRANCH branch"
   if [[ -d "$projectPath/$FRONTEND_SOURCE_FOLDER" ]]; then rm -rf $projectPath/$FRONTEND_SOURCE_FOLDER; fi
-  git clone -b "$FRONTEND_BRANCH" --single-branch https://github.com/CBIIT/bento-frontend.git "$projectPath/$FRONTEND_SOURCE_FOLDER" &> /dev/null && echo "Created frontend source folder: $projectPath/$FRONTEND_SOURCE_FOLDER" || echo "ERROR CREATING FRONTEND SOURCE FOLDER: $projectPath/$FRONTEND_SOURCE_FOLDER - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL"
+  git clone -b "$FRONTEND_BRANCH" --single-branch "$FRONTEND_REPO" "$projectPath/$FRONTEND_SOURCE_FOLDER" &> /dev/null && echo "Created frontend source folder: $projectPath/$FRONTEND_SOURCE_FOLDER" || echo "ERROR CREATING FRONTEND SOURCE FOLDER: $projectPath/$FRONTEND_SOURCE_FOLDER - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL"
   echo ""
 fi
 
@@ -52,7 +58,7 @@ then
   echo ""
 else
   echo "Cloning bento-model repository:  $MODEL_BRANCH branch"
-  git clone -b "$MODEL_BRANCH" --single-branch https://github.com/CBIIT/BENTO-TAILORx-model.git "$projectPath/$BENTO_DATA_MODEL" &> /dev/null && echo "Created model folder: $projectPath/$BENTO_DATA_MODEL" || echo "ERROR CREATING BENTO MODEL FOLDER: $projectPath/$BENTO_DATA_MODEL - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE RUNNING THE BENTO DATALOADER"
+  git clone -b "$MODEL_BRANCH" --single-branch "$MODEL_REPO" "$projectPath/$BENTO_DATA_MODEL" &> /dev/null && echo "Created model folder: $projectPath/$BENTO_DATA_MODEL" || echo "ERROR CREATING BENTO MODEL FOLDER: $projectPath/$BENTO_DATA_MODEL - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE RUNNING THE BENTO DATALOADER"
   echo ""
 fi
 

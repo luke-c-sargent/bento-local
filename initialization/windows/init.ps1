@@ -22,8 +22,11 @@ catch [System.Management.Automation.CommandNotFoundException]
 }
 
 $user_data = Read-Host -Prompt "use demo data [$($properties.USE_DEMO_DATA)]"; if (!([string]::IsNullOrWhiteSpace($user_data))) { $properties.USE_DEMO_DATA = $user_data }
+$user_data = Read-Host -Prompt "set bento-frontend branch [$($properties.BACKEND_REPO)]"; if (!([string]::IsNullOrWhiteSpace($user_data))) { $properties.BACKEND_REPO = $user_data }
 $user_data = Read-Host -Prompt "set bento-frontend branch [$($properties.BACKEND_BRANCH)]"; if (!([string]::IsNullOrWhiteSpace($user_data))) { $properties.BACKEND_BRANCH = $user_data }
+$user_data = Read-Host -Prompt "set bento-frontend branch [$($properties.FRONTEND_REPO)]"; if (!([string]::IsNullOrWhiteSpace($user_data))) { $properties.FRONTEND_REPO = $user_data }
 $user_data = Read-Host -Prompt "set bento-frontend branch [$($properties.FRONTEND_BRANCH)]"; if (!([string]::IsNullOrWhiteSpace($user_data))) { $properties.FRONTEND_BRANCH = $user_data }
+$user_data = Read-Host -Prompt "set bento-model branch [$($properties.MODEL_REPO)]"; if (!([string]::IsNullOrWhiteSpace($user_data))) { $properties.MODEL_REPO = $user_data }
 $user_data = Read-Host -Prompt "set bento-model branch [$($properties.MODEL_BRANCH)]"; if (!([string]::IsNullOrWhiteSpace($user_data))) { $properties.MODEL_BRANCH = $user_data }
 write-host
 
@@ -32,7 +35,7 @@ if ( Test-Path -Path "$projectPath\$($properties.BACKEND_SOURCE_FOLDER)" ) {
   write-host
   } else {
     write-host "Cloning bento-backend repository:  $($properties.BACKEND_BRANCH) branch"
-	git clone -qb $($properties.BACKEND_BRANCH) --single-branch https://github.com/CBIIT/bento-backend.git $projectPath\$($properties.BACKEND_SOURCE_FOLDER)
+	git clone -qb $($properties.BACKEND_BRANCH) --single-branch $($properties.BACKEND_REPO) $projectPath\$($properties.BACKEND_SOURCE_FOLDER)
 	if ( $lastexitcode -ne 0 ) {
 	  write-host "ERROR CREATING BACKEND SOURCE FOLDER: $projectPath\$($properties.BACKEND_SOURCE_FOLDER) - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL"
 	  } else {
@@ -47,7 +50,7 @@ if ( (Test-Path -Path "$projectPath\$($properties.FRONTEND_SOURCE_FOLDER)") -And
   } else {
     write-host "Cloning bento-frontend repository:  $($properties.FRONTEND_BRANCH) branch"
 	if ( Test-Path -Path "$projectPath\$($properties.FRONTEND_SOURCE_FOLDER)" ) { Remove-Item -Recurse -Force $projectPath\$($properties.FRONTEND_SOURCE_FOLDER) }
-	git clone -qb $($properties.FRONTEND_BRANCH) --single-branch https://github.com/CBIIT/bento-frontend.git $projectPath\$($properties.FRONTEND_SOURCE_FOLDER)
+	git clone -qb $($properties.FRONTEND_BRANCH) --single-branch $($properties.FRONTEND_REPO) $projectPath\$($properties.FRONTEND_SOURCE_FOLDER)
 	if ( $lastexitcode -ne 0 ) {
 	  write-host "ERROR CREATING FRONTEND SOURCE FOLDER: $projectPath\$($properties.FRONTEND_SOURCE_FOLDER) - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL"
 	  } else {
@@ -61,7 +64,7 @@ if ( Test-Path -Path "$projectPath\$($properties.BENTO_DATA_MODEL)" ) {
   write-host
   } else {
     write-host "Cloning bento-model repository:  $($properties.MODEL_BRANCH) branch"
-	git clone -qb $($properties.MODEL_BRANCH) --single-branch https://github.com/CBIIT/BENTO-TAILORx-model.git $projectPath\$($properties.BENTO_DATA_MODEL)
+	git clone -qb $($properties.MODEL_BRANCH) --single-branch $($properties.MODEL_REPO) $projectPath\$($properties.BENTO_DATA_MODEL)
 	if ( $lastexitcode -ne 0 ) {
 	  write-host "ERROR CREATING BENTO MODEL FOLDER: $projectPath\$($properties.BENTO_DATA_MODEL) - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE RUNNING THE BENTO DATALOADER"
 	  } else {

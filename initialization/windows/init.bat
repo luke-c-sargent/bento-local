@@ -17,8 +17,11 @@ if %errorlevel% neq 0 (
 )
 
 set /p USE_DEMO_DATA="use demo data [%USE_DEMO_DATA%]: "
+set /p BACKEND_REPO="set bento-backend repository [%BACKEND_REPO%]: "
 set /p BACKEND_BRANCH="set bento-backend branch [%BACKEND_BRANCH%]: "
+set /p FRONTEND_REPO="set bento-frontend repository [%FRONTEND_REPO%]: "
 set /p FRONTEND_BRANCH="set bento-frontend branch [%FRONTEND_BRANCH%]: "
+set /p MODEL_REPO="set bento-model repository [%MODEL_REPO%]: "
 set /p MODEL_BRANCH="set bento-model branch [%MODEL_BRANCH%]: "
 echo.
 
@@ -26,7 +29,7 @@ IF EXIST %ROOT_PATH%\%BACKEND_SOURCE_FOLDER% (
 echo The backend repository is already initialized in:  %ROOT_PATH%\%BACKEND_SOURCE_FOLDER%. Please remove this folder and re-initialize the project.
 ) ELSE (
 echo Cloning bento-backend repository:  %BACKEND_BRANCH% branch
-git clone -b %BACKEND_BRANCH% --single-branch https://github.com/CBIIT/bento-backend.git %ROOT_PATH%\%BACKEND_SOURCE_FOLDER% >nul 2>&1
+git clone -b %BACKEND_BRANCH% --single-branch %BACKEND_REPO% %ROOT_PATH%\%BACKEND_SOURCE_FOLDER% >nul 2>&1
 IF ERRORLEVEL 1 (
 echo ERROR CREATING BACKEND SOURCE FOLDER: %ROOT_PATH%\%BACKEND_SOURCE_FOLDER% - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL
 ) ELSE (
@@ -52,7 +55,7 @@ echo The frontend repository is already initialized in:  %ROOT_PATH%\%FRONTEND_S
 ) ELSE (
 echo Cloning bento-frontend repository:  %FRONTEND_BRANCH% branch
 IF EXIST %ROOT_PATH%\%FRONTEND_SOURCE_FOLDER% ( rmdir /s /q %ROOT_PATH%\%FRONTEND_SOURCE_FOLDER% ) 
-git clone -b %FRONTEND_BRANCH% --single-branch https://github.com/CBIIT/bento-frontend.git %ROOT_PATH%\%FRONTEND_SOURCE_FOLDER% >nul 2>&1
+git clone -b %FRONTEND_BRANCH% --single-branch %FRONTEND_REPO% %ROOT_PATH%\%FRONTEND_SOURCE_FOLDER% >nul 2>&1
 IF ERRORLEVEL 1 (
 echo ERROR CREATING FRONTEND SOURCE FOLDER: %ROOT_PATH%\%FRONTEND_SOURCE_FOLDER% - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL
 ) ELSE (
@@ -65,7 +68,7 @@ IF EXIST %ROOT_PATH%\%BENTO_DATA_MODEL% (
 echo The model repository is already initialized in:  %ROOT_PATH%\%BENTO_DATA_MODEL%. Please remove this folder and re-initialize the project.
 ) ELSE (
 echo Cloning bento-model repository:  %MODEL_BRANCH% branch
-git clone -b %MODEL_BRANCH% --single-branch https://github.com/CBIIT/BENTO-TAILORx-model.git %ROOT_PATH%\%BENTO_DATA_MODEL% >nul 2>&1
+git clone -b %MODEL_BRANCH% --single-branch %MODEL_REPO% %ROOT_PATH%\%BENTO_DATA_MODEL% >nul 2>&1
 IF ERRORLEVEL 1 (
 echo ERROR CREATING MODEL SOURCE FOLDER: %ROOT_PATH%\%BENTO_DATA_MODEL% - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE RUNNING THE BENTO DATALOADER
 ) ELSE (
