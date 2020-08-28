@@ -23,6 +23,8 @@ ARG NEO4J_PASS
 ENV Neo4jPass=${NEO4J_PASS}
 ARG NEO4J_USER
 ENV Neo4jUser=${NEO4J_USER}
+ARG NEO4J_HOST
+ENV Neo4jHost=${NEO4J_HOST}
 
 # Copy data and config files to the container
 ADD ./data /tmp/neo4j_data
@@ -32,7 +34,8 @@ COPY ./dataloader/bento-local.yml /usr/local/icdc_dataloader
 
 # update the neo4j credentials in the dataloader config file
 RUN sed -i "s/%NEO4J_USER%/${NEO4J_USER}/g" /usr/local/icdc_dataloader/bento-local.yml \
- && sed -i "s/%NEO4J_PASS%/${NEO4J_PASS}/g" /usr/local/icdc_dataloader/bento-local.yml
+ && sed -i "s/%NEO4J_PASS%/${NEO4J_PASS}/g" /usr/local/icdc_dataloader/bento-local.yml \
+ && sed -i "s/%NEO4J_HOST%/${NEO4J_HOST}/g" /usr/local/icdc_dataloader/bento-local.yml
 
 ENTRYPOINT echo "loading provided dataset" \
  && cd /usr/local/icdc_dataloader \
@@ -40,5 +43,5 @@ ENTRYPOINT echo "loading provided dataset" \
  && echo "loading provided schema" \
  && cd /usr/local/bento-backend \
  && basicAuth=$(echo "Basic $(echo -n "$Neo4jUser:$Neo4jPass" | base64)") \
- && curl -v -X POST http://neo4j:7474/graphql/idl/ -H 'Accept: application/json' -H "Authorization: $basicAuth" -d @./src/main/resources/graphql/bento-extended.graphql \
+ && curl -v -X POST http://$Neo4jHost:7474/graphql/idl/ -H 'Accept: application/json' -H "Authorization: $basicAuth" -d @./src/main/resources/graphql/bento-extended.graphql \
  && /bin/bash

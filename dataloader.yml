@@ -10,6 +10,7 @@ services:
         BENTO_DATA_MODEL: ${BENTO_DATA_MODEL}
         NEO4J_USER: ${NEO4J_USER}
         NEO4J_PASS: ${NEO4J_PASS}
+        NEO4J_HOST: ${NEO4J_HOST}
     networks:
       - bento-local_bridge
 
