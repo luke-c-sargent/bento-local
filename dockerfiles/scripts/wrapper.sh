@@ -1,14 +1,7 @@
 #!/bin/bash
 
-# turn on bash's job control
-set -m
+# seed the bento 50k data set
+mkdir -p /data/databases/graph.db && bin/neo4j-admin load --from=bento-data.dump --database=graph.db --force
 
-# Start the primary process and put it in the background
-/docker-entrypoint.sh neo4j &
-
-# Start the data loader script
-./seed_data.sh
-
-# bring the primary process back into the foreground
-# and leave it there
-fg %1
+# Start the primary process
+/docker-entrypoint.sh neo4j 
