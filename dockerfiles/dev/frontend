@@ -19,5 +19,7 @@ WORKDIR /usr/local/bento-frontend
 
 RUN npm install
 
+RUN (export NODE_OPTIONS="--max-old-space-size=2048" && exec npm run lint-fix)
+
 EXPOSE 3000
 CMD [ "npm", "start" ]
