@@ -69,7 +69,7 @@ then
     echo "The bento-local project already has a data folder defined. Please remove this folder and re-initialize the project."
   else
     echo Seeding project with demo data
-	cp -R ../demo_data $projectPath/data &> /dev/null && echo "Created data folder: $projectPath/data" || echo "ERROR CREATING DATA FOLDER: $projectPath\data - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE RUNNING THE BENTO DATALOADER"
+	cp -R ../demo_data "$projectPath"/data &> /dev/null && echo "Created data folder: $projectPath/data" || echo "ERROR CREATING DATA FOLDER: $projectPath\data - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE RUNNING THE BENTO DATALOADER"
   fi
 else
 mkdir $projectPath/data &> /dev/null
