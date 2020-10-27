@@ -1,5 +1,5 @@
 # Pull the base image from cbiitssrepo
-FROM cbiitssrepo/bento-local-backend:initial
+FROM cbiitssrepo/bento-local-backend:latest
 MAINTAINER ESI Devops Team
 
 EXPOSE 8080
