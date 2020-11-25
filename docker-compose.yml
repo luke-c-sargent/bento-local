@@ -30,6 +30,8 @@ services:
         FRONTEND_SOURCE_FOLDER: ${FRONTEND_SOURCE_FOLDER}
     environment:
       - REACT_APP_ABOUT_CONTENT_URL=https://raw.githubusercontent.com/CBIIT/bento-frontend/master/src/content/dev/aboutPagesContent.yaml
+      - REACT_APP_BE_VERSION=${BACKEND_BRANCH}
+      - REACT_APP_FE_VERSION=${FRONTEND_BRANCH}
       - REACT_APP_BACKEND_API=http://localhost:8080/v1/graphql/
     volumes:
       - ./${FRONTEND_SOURCE_FOLDER}:/usr/local/bento-frontend
