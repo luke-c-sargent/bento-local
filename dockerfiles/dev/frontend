@@ -14,6 +14,7 @@ ARG FRONTEND_SOURCE_FOLDER
 RUN mkdir /usr/local/bento-frontend
 
 COPY ${FRONTEND_SOURCE_FOLDER}/package.json /usr/local/bento-frontend
+COPY ${FRONTEND_SOURCE_FOLDER}/package-lock.json /usr/local/bento-frontend
 
 WORKDIR /usr/local/bento-frontend
 
