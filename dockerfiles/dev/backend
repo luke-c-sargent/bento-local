@@ -48,11 +48,15 @@ ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
 # Copy bento backend repo and fix config file for local connection
 ARG NEO4J_USER
 ARG NEO4J_PASS
+ARG FRONTEND_SOURCE_FOLDER
 ARG BACKEND_SOURCE_FOLDER
 
 RUN echo "Copying Backend Source..."
-
 COPY ${BACKEND_SOURCE_FOLDER} /usr/local/bento-backend
+
+RUN echo "Creating graphql directory in backend and copying schema file"
+RUN mkdir /usr/local/bento-backend/src/main/resources/graphql
+COPY ${FRONTEND_SOURCE_FOLDER}/graphql/bento-extended.graphql /usr/local/bento-backend/src/main/resources/graphql
 
 RUN cd /usr/local/bento-backend \
  && if [ -f src/main/resources/application.properties ]; then mv src/main/resources/application.properties src/main/resources/application.properties.bak; fi \

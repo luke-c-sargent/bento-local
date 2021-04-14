@@ -6,6 +6,7 @@ services:
       context: .
       dockerfile: ./dockerfiles/${BUILD_MODE}/backend
       args:
+        FRONTEND_SOURCE_FOLDER: ${FRONTEND_SOURCE_FOLDER}
         BACKEND_SOURCE_FOLDER: ${BACKEND_SOURCE_FOLDER}
         NEO4J_USER: ${NEO4J_USER}
         NEO4J_PASS: ${NEO4J_PASS}
