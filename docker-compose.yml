@@ -50,6 +50,25 @@ services:
       - 8085:3000
     restart: always
 
+  bento-files:
+    container_name: files
+    build:
+      context: .
+      dockerfile: ./dockerfiles/${BUILD_MODE}/filedownload
+      args:
+        FILES_SOURCE_FOLDER: ${FILES_SOURCE_FOLDER}
+    environment:
+      - VERSION=${FILES_BRANCH}
+      - DATE=${DATE}
+      - PROJECT=BENTO
+      - URL_SRC=DUMMY
+      - BACKEND_URL=http://localhost:8080/v1/graphql/
+    networks:
+      - bridge
+    ports:
+      - 8081:8081
+    restart: always
+
   neo4j:
     container_name: neo4j
     build:
