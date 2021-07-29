@@ -21,6 +21,8 @@ set /p BACKEND_REPO="set bento-backend repository [%BACKEND_REPO%]: "
 set /p BACKEND_BRANCH="set bento-backend branch [%BACKEND_BRANCH%]: "
 set /p FRONTEND_REPO="set bento-frontend repository [%FRONTEND_REPO%]: "
 set /p FRONTEND_BRANCH="set bento-frontend branch [%FRONTEND_BRANCH%]: "
+set /p FILES_REPO="set bento-files repository [%FILES_REPO%]: "
+set /p FILES_BRANCH="set bento-files branch [%FILES_BRANCH%]: "
 set /p MODEL_REPO="set bento-model repository [%MODEL_REPO%]: "
 set /p MODEL_BRANCH="set bento-model branch [%MODEL_BRANCH%]: "
 echo.
@@ -60,6 +62,19 @@ IF ERRORLEVEL 1 (
 echo ERROR CREATING FRONTEND SOURCE FOLDER: %ROOT_PATH%\%FRONTEND_SOURCE_FOLDER% - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL
 ) ELSE (
 echo Created frontend source folder: %ROOT_PATH%\%FRONTEND_SOURCE_FOLDER%
+)
+echo.
+)
+
+IF EXIST %ROOT_PATH%\%FILES_SOURCE_FOLDER% (
+echo The files repository is already initialized in:  %ROOT_PATH%\%FILES_SOURCE_FOLDER%. Please remove this folder and re-initialize the project.
+) ELSE (
+echo Cloning bento-files repository:  %FILES_BRANCH% branch
+git clone -b %FILES_BRANCH% --single-branch %FILES_REPO% %ROOT_PATH%\%FILES_SOURCE_FOLDER% >nul 2>&1
+IF ERRORLEVEL 1 (
+echo ERROR CREATING FILES SOURCE FOLDER: %ROOT_PATH%\%FILES_SOURCE_FOLDER% - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL
+) ELSE (
+echo Created files folder: %ROOT_PATH%\%FILES_SOURCE_FOLDER%
 )
 echo.
 )

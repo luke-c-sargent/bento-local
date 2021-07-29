@@ -1,0 +1,6 @@
+bento-backend/
+bento-frontend/
+bento-files/
+bento-model/
+data/
+.env
