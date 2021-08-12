@@ -29,6 +29,10 @@ read -p "set bento-model repository [default=$MODEL_REPO]: " user_data
   : ${user_data:=$MODEL_REPO}; MODEL_REPO=$user_data
 read -p "set bento-model branch [default=$MODEL_BRANCH]: " user_data
   : ${user_data:=$MODEL_BRANCH}; MODEL_BRANCH=$user_data
+read -p "set bento-files repository [default=$FILES_REPO]: " user_data
+  : ${user_data:=$FILES_REPO}; FILES_REPO=$user_data
+read -p "set bento-files branch [default=$FILES_BRANCH]: " user_data
+  : ${user_data:=$FILES_BRANCH}; FILES_BRANCH=$user_data
 echo ""
 
 if [[ -d "$projectPath/$BACKEND_SOURCE_FOLDER" ]]
@@ -59,6 +63,16 @@ then
 else
   echo "Cloning bento-model repository:  $MODEL_BRANCH branch"
   git clone -b "$MODEL_BRANCH" --single-branch "$MODEL_REPO" "$projectPath/$BENTO_DATA_MODEL" &> /dev/null && echo "Created model folder: $projectPath/$BENTO_DATA_MODEL" || echo "ERROR CREATING BENTO MODEL FOLDER: $projectPath/$BENTO_DATA_MODEL - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE RUNNING THE BENTO DATALOADER"
+  echo ""
+fi
+
+if [[ -d "$projectPath/$FILES_SOURCE_FOLDER" ]]
+then
+  echo "The bento files repository is already initialized in:  $projectPath/$FILES_SOURCE_FOLDER. Please remove this folder and re-initialize the project."
+  echo ""
+else
+  echo "Cloning bento-files repository:  $FILES_BRANCH branch"
+  git clone -b "$FILES_BRANCH" --single-branch "$FILES_REPO" "$projectPath/$FILES_SOURCE_FOLDER" &> /dev/null && echo "Created files source folder: $projectPath/$FILES_SOURCE_FOLDER" || echo "ERROR CREATING FILES SOURCE FOLDER: $projectPath/$FILES_SOURCE_FOLDER - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL"
   echo ""
 fi
 
