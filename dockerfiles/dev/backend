@@ -55,7 +55,7 @@ RUN echo "Copying Backend Source..."
 COPY ${BACKEND_SOURCE_FOLDER} /usr/local/bento-backend
 
 RUN echo "Creating graphql directory in backend and copying schema file"
-RUN mkdir /usr/local/bento-backend/src/main/resources/graphql
+RUN mkdir -p /usr/local/bento-backend/src/main/resources/graphql
 COPY ${FRONTEND_SOURCE_FOLDER}/graphql/bento-extended.graphql /usr/local/bento-backend/src/main/resources/graphql
 
 RUN cd /usr/local/bento-backend \
