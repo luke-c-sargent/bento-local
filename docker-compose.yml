@@ -20,7 +20,7 @@ services:
       - REDIS_USE_CLUSTER=false
       - REDIS_HOST=""
       - REDIS_FILTER_ENABLE=false
-      - ES_HOST=http://localhost:9200
+      - ES_HOST=bento-es
       - ES_FILTER_ENABLED=true
       - GRAPHQL_SCHEMA=graphql/bento-extended.graphql
     depends_on:
@@ -76,9 +76,7 @@ services:
 
   bento-es:
     container_name: bento-es
-    build:
-      context: .
-      dockerfile: ./dockerfiles/${BUILD_MODE}/bento-es
+    image: elasticsearch:7.10.1
     environment:
       - ES_JAVA_OPTS=-Xms256m -Xmx256m
       - network.bind_host=0.0.0.0
