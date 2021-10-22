@@ -108,6 +108,19 @@ services:
       - 7474:7474
       - 7687:7687
 
+  bento-dataloader-es:
+    container_name: dataloader
+    build:
+      context: .
+      dockerfile: ./dataloader/Dockerfile_es
+      args:
+        BACKEND_SOURCE_FOLDER: ${BACKEND_SOURCE_FOLDER}
+        NEO4J_USER: ${NEO4J_USER}
+        NEO4J_PASS: ${NEO4J_PASS}
+        NEO4J_HOST: ${NEO4J_HOST}
+    networks:
+      - bridge
+
 volumes:
   neo4j-data:
   neo4j-logs:
