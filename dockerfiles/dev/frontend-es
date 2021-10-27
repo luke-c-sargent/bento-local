@@ -27,6 +27,8 @@ ARG NEO4J_USER
 ENV NEO4J_USER=${NEO4J_USER}
 ARG NEO4J_HOST
 ENV NEO4J_HOST=${NEO4J_HOST}
+ARG ES_HOST
+ENV ES_HOST=${ES_HOST}
 
 RUN echo "cloning dataloader code" \
  && git clone --single-branch --branch master --recurse-submodules -j8 https://github.com/CBIIT/icdc-dataloader.git /usr/local/icdc_dataloader \
@@ -39,4 +41,4 @@ RUN chmod +x /tmp/wait-for-it.sh
 COPY dockerfiles/scripts/es-loader-ubuntu.sh /tmp/
 COPY ${BACKEND_SOURCE_FOLDER}/src/main/resources/yaml/es_indices_bento.yml /tmp/
 
-ENTRYPOINT [ "/bin/sh", "-c", "/tmp/wait-for-it.sh -t 0 bento-es:9200 -- /tmp/es-loader-ubuntu.sh && npm run lint-fix && npm start" ]
+ENTRYPOINT [ "/bin/sh", "-c", "/tmp/wait-for-it.sh -t 0 $ES_HOST:9200 -- /tmp/es-loader-ubuntu.sh && npm run lint-fix && npm start" ]

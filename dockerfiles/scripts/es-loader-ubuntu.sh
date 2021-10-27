@@ -13,7 +13,7 @@ cp /tmp/es_indices_bento.yml /usr/local/icdc_dataloader/config/es_indices_bento.
 cp /usr/local/icdc_dataloader/config/es_loader.yml.j2 /usr/local/icdc_dataloader/config/es_loader_local.yml \
  && sed -i "s/\"{{ neo4j_password }}\"/$NEO4J_PASS/g" /usr/local/icdc_dataloader/config/es_loader_local.yml \
  && sed -i "s/{{neo4j_ip}}/$NEO4J_HOST/g" /usr/local/icdc_dataloader/config/es_loader_local.yml \
- && sed -i "s/{{ es_host }}/bento-es/g" /usr/local/icdc_dataloader/config/es_loader_local.yml
+ && sed -i "s/{{ es_host }}/$ES_HOST/g" /usr/local/icdc_dataloader/config/es_loader_local.yml
 
 echo "loading data from neo4j" \
  && cat /usr/local/icdc_dataloader/config/es_loader_local.yml \
