@@ -1,0 +1,40 @@
+version: '3.4'
+services:
+  neo4j:
+    container_name: neo4j
+    build:
+      context: .
+      dockerfile: ./dockerfiles/${BUILD_MODE}/neo4j
+    environment:
+      - NEO4J_ACCEPT_LICENSE_AGREEMENT=yes
+      - NEO4J_AUTH=${NEO4J_USER}/${NEO4J_PASS}
+      - NEO4J_PASS=${NEO4J_PASS}
+    volumes:
+      - neo4j-data:/data
+      - neo4j-logs:/logs
+    networks:
+      - default
+    ports:
+      - 7474:7474
+      - 7687:7687
+
+  bento-es:
+    container_name: bento-es
+    image: elasticsearch:7.10.1
+    environment:
+      - ES_JAVA_OPTS=-Xms256m -Xmx256m
+      - network.bind_host=0.0.0.0
+      - network.host=0.0.0.0
+      - discovery.type=single-node
+    depends_on:
+      - neo4j
+    networks:
+      - default
+    ports:
+      - 8086:80
+      - 9200:9200
+      - 9300:9300
+
+volumes:
+  neo4j-data:
+  neo4j-logs:

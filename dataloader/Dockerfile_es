@@ -30,11 +30,12 @@ COPY ${BACKEND_SOURCE_FOLDER}/src/main/resources/yaml/es_indices_bento.yml /usr/
 
 # update the neo4j credentials in the dataloader config file
 RUN cp /usr/local/icdc_dataloader/config/es_loader.yml.j2 /usr/local/icdc_dataloader/config/es_loader_local.yml \
- && sed -i "s/{{ neo4j_password }}/${NEO4J_PASS}/g" /usr/local/icdc_dataloader/config/es_loader_local.yml \
+ && sed -i "s/\"{{ neo4j_password }}\"/${NEO4J_PASS}/g" /usr/local/icdc_dataloader/config/es_loader_local.yml \
  && sed -i "s/{{neo4j_ip}}/${NEO4J_HOST}/g" /usr/local/icdc_dataloader/config/es_loader_local.yml \
  && sed -i "s/{{ es_host }}/bento-es/g" /usr/local/icdc_dataloader/config/es_loader_local.yml
 
 ENTRYPOINT echo "loading data from neo4j" \
+ && cat /usr/local/icdc_dataloader/config/es_loader_local.yml \
  && cd /usr/local/icdc_dataloader \
  && python3 es_loader.py config/es_indices_bento.yml config/es_loader_local.yml \
  && /bin/bash

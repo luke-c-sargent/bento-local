@@ -1,7 +1,7 @@
 version: '3.4'
 services:
   bento-dataloader-es:
-    container_name: dataloader
+    container_name: dataloader-es
     build:
       context: .
       dockerfile: ./dataloader/Dockerfile_es
@@ -11,8 +11,4 @@ services:
         NEO4J_PASS: ${NEO4J_PASS}
         NEO4J_HOST: ${NEO4J_HOST}
     networks:
-      - bento-local_bridge
-
-networks:
-  bento-local_bridge:
-    external: true
+      - default

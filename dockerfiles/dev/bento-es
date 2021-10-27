@@ -1,4 +1,0 @@
-# Pull the base image from elasticsearch
-FROM elasticsearch:7.10.1
-
-EXPOSE 9200

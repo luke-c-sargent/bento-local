@@ -1,0 +1,37 @@
+FROM node:15.13.0-buster-slim
+MAINTAINER ESI Devops Team
+
+# install dependencies
+RUN apt-get update && apt-get install -y git npm
+
+# Update to the latest npm
+RUN npm install npm@7.7.6 -g
+
+ARG FRONTEND_SOURCE_FOLDER
+
+RUN mkdir /usr/local/bento-frontend
+
+COPY ${FRONTEND_SOURCE_FOLDER}/package.json /usr/local/bento-frontend
+COPY ${FRONTEND_SOURCE_FOLDER}/package-lock.json /usr/local/bento-frontend
+
+WORKDIR /usr/local/bento-frontend
+
+RUN npm install --legacy-peer-deps
+
+EXPOSE 3000
+
+ARG BACKEND_SOURCE_FOLDER
+ARG NEO4J_PASS
+ENV NEO4J_PASS=${NEO4J_PASS}
+ARG NEO4J_USER
+ENV NEO4J_USER=${NEO4J_USER}
+ARG NEO4J_HOST
+ENV NEO4J_HOST=${NEO4J_HOST}
+
+ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/e1f115e4ca285c3c24e847c4dd4be955e0ed51c2/wait-for-it.sh /tmp/wait-for-it.sh
+RUN chmod +x /tmp/wait-for-it.sh
+
+COPY dockerfiles/scripts/es-loader-ubuntu.sh /tmp/
+COPY ${BACKEND_SOURCE_FOLDER}/src/main/resources/yaml/es_indices_bento.yml /tmp/
+
+ENTRYPOINT [ "/bin/sh", "-c", "/tmp/wait-for-it.sh -t 0 bento-es:9200 -- /tmp/es-loader-ubuntu.sh && npm run lint-fix && npm start" ]

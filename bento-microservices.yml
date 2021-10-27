@@ -23,6 +23,8 @@ services:
       - ES_HOST=bento-es
       - ES_FILTER_ENABLED=true
       - GRAPHQL_SCHEMA=graphql/bento-extended.graphql
+    depends_on:
+      - bento-frontend
     networks:
       - default
     ports:
@@ -33,13 +35,9 @@ services:
     container_name: frontend
     build:
       context: .
-      dockerfile: ./dockerfiles/${BUILD_MODE}/frontend-es
+      dockerfile: ./dockerfiles/${BUILD_MODE}/frontend
       args:
         FRONTEND_SOURCE_FOLDER: ${FRONTEND_SOURCE_FOLDER}
-        BACKEND_SOURCE_FOLDER: ${BACKEND_SOURCE_FOLDER}
-        NEO4J_USER: ${NEO4J_USER}
-        NEO4J_PASS: ${NEO4J_PASS}
-        NEO4J_HOST: ${NEO4J_HOST}
     environment:
       - REACT_APP_BACKEND_API=http://localhost:8080/v1/graphql/
       - REACT_APP_FILE_SERVICE_API=https://localhost:8081/api/files/
@@ -50,10 +48,7 @@ services:
       - ./${FRONTEND_SOURCE_FOLDER}:/usr/local/bento-frontend
       - /usr/local/bento-frontend/node_modules
     depends_on:
-      - neo4j
-      - bento-backend
-      - bento-files
-      - bento-es
+      - bento-dataloader-es
     networks:
       - default
     ports:
@@ -80,41 +75,15 @@ services:
       - 8081:8081
     restart: always
 
-  bento-es:
-    container_name: bento-es
-    image: elasticsearch:7.10.1
-    environment:
-      - ES_JAVA_OPTS=-Xms256m -Xmx256m
-      - network.bind_host=0.0.0.0
-      - network.host=0.0.0.0
-      - discovery.type=single-node
-    depends_on:
-      - neo4j
-    networks:
-      - default
-    ports:
-      - 8086:80
-      - 9200:9200
-      - 9300:9300
-
-  neo4j:
-    container_name: neo4j
+  bento-dataloader-es:
+    container_name: dataloader
     build:
       context: .
-      dockerfile: ./dockerfiles/${BUILD_MODE}/neo4j
-    environment:
-      - NEO4J_ACCEPT_LICENSE_AGREEMENT=yes
-      - NEO4J_AUTH=${NEO4J_USER}/${NEO4J_PASS}
-      - NEO4J_PASS=${NEO4J_PASS}
-    volumes:
-      - neo4j-data:/data
-      - neo4j-logs:/logs
+      dockerfile: ./dataloader/Dockerfile_es
+      args:
+        BACKEND_SOURCE_FOLDER: ${BACKEND_SOURCE_FOLDER}
+        NEO4J_USER: ${NEO4J_USER}
+        NEO4J_PASS: ${NEO4J_PASS}
+        NEO4J_HOST: ${NEO4J_HOST}
     networks:
       - default
-    ports:
-      - 7474:7474
-      - 7687:7687
-
-volumes:
-  neo4j-data:
-  neo4j-logs:
