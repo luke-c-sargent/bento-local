@@ -1,9 +1,10 @@
-apt-get update && apt-get install -y python3 python3-pip git
+# MOVED TO FRONTEND DOCKERFILE
+#apt-get update && apt-get install -y python3 python3-pip git
 
-echo "cloning dataloader code" \
- && git clone --single-branch --branch master --recurse-submodules -j8 https://github.com/CBIIT/icdc-dataloader.git /usr/local/icdc_dataloader \
- && cd /usr/local/icdc_dataloader \
- && pip3 install -r requirements.txt
+#echo "cloning dataloader code" \
+# && git clone --single-branch --branch master --recurse-submodules -j8 https://github.com/CBIIT/icdc-dataloader.git /usr/local/icdc_dataloader \
+# && cd /usr/local/icdc_dataloader \
+# && pip3 install -r requirements.txt
 
 # copy indices file from backend
 cp /tmp/es_indices_bento.yml /usr/local/icdc_dataloader/config/es_indices_bento.yml
