@@ -85,5 +85,6 @@ services:
         NEO4J_USER: ${NEO4J_USER}
         NEO4J_PASS: ${NEO4J_PASS}
         NEO4J_HOST: ${NEO4J_HOST}
+        ES_HOST: ${ES_HOST}
     networks:
       - default
