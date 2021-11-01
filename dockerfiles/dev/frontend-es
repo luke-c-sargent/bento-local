@@ -35,10 +35,18 @@ RUN echo "cloning dataloader code" \
  && cd /usr/local/icdc_dataloader \
  && pip3 install -r requirements.txt
 
+RUN apt-get update \
+ && apt-get install -y dos2unix
+
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/e1f115e4ca285c3c24e847c4dd4be955e0ed51c2/wait-for-it.sh /tmp/wait-for-it.sh
-RUN chmod +x /tmp/wait-for-it.sh
+RUN chown root:root /tmp/wait-for-it.sh \
+ && chmod +x /tmp/wait-for-it.sh
 
 COPY dockerfiles/scripts/es-loader-ubuntu.sh /tmp/
+RUN dos2unix /tmp/es-loader-ubuntu.sh \
+ && chown root:root /tmp/es-loader-ubuntu.sh \
+ && chmod +x /tmp/es-loader-ubuntu.sh
+
 COPY ${BACKEND_SOURCE_FOLDER}/src/main/resources/yaml/es_indices_bento.yml /tmp/
 
 ENTRYPOINT [ "/bin/sh", "-c", "/tmp/wait-for-it.sh -t 0 $ES_HOST:9200 -- /tmp/es-loader-ubuntu.sh && npm run lint-fix && npm start" ]
