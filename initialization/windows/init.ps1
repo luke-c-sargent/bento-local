@@ -32,6 +32,9 @@ $user_data = Read-Host -Prompt "set bento-model repo [$($properties.MODEL_REPO)]
 $user_data = Read-Host -Prompt "set bento-model branch [$($properties.MODEL_BRANCH)]"; if (!([string]::IsNullOrWhiteSpace($user_data))) { $properties.MODEL_BRANCH = $user_data }
 write-host
 
+# Set GIT to preserve line endings
+git config auto.crlf false
+
 if ( Test-Path -Path "$projectPath\$($properties.BACKEND_SOURCE_FOLDER)" ) {
   write-host "The backend repository is already initialized in:  $projectPath\$($properties.BACKEND_SOURCE_FOLDER). Please remove this folder and re-initialize the project."
   write-host
