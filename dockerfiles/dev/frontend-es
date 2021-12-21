@@ -21,6 +21,7 @@ RUN npm install --legacy-peer-deps
 EXPOSE 3000
 
 ARG BACKEND_SOURCE_FOLDER
+ARG BENTO_DATA_MODEL
 ARG NEO4J_PASS
 ENV NEO4J_PASS=${NEO4J_PASS}
 ARG NEO4J_USER
@@ -48,5 +49,14 @@ RUN dos2unix /tmp/es-loader-ubuntu.sh \
  && chmod +x /tmp/es-loader-ubuntu.sh
 
 COPY ${BACKEND_SOURCE_FOLDER}/src/main/resources/yaml/es_indices_bento.yml /tmp/
+
+COPY ${BENTO_DATA_MODEL}/model-desc/bento_tailorx_model_file.yaml /tmp/
+COPY ${BENTO_DATA_MODEL}/model-desc/bento_tailorx_model_properties.yaml /tmp/
+COPY ${FRONTEND_SOURCE_FOLDER}/src/content/dev/aboutPagesContent.yaml /tmp/
+
+ENV MODEL_FILE1=/tmp/bento_tailorx_model_file.yaml
+ENV MODEL_FILE2=/tmp/bento_tailorx_model_properties.yaml
+ENV ABOUT_FILE=/tmp/aboutPagesContent.yaml
+ENV PROPERTY_FILE=config/props-bento-ext.yml
 
 ENTRYPOINT [ "/bin/sh", "-c", "/tmp/wait-for-it.sh -t 0 $ES_HOST:9200 -- /tmp/es-loader-ubuntu.sh && npm run lint-fix && npm start" ]
