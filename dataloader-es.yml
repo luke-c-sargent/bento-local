@@ -1,15 +1,15 @@
 version: '3.4'
 services:
-  bento-dataloader:
-    container_name: dataloader
+  bento-dataloader-es:
+    container_name: dataloader-es
     build:
       context: .
-      dockerfile: ./dataloader/Dockerfile
+      dockerfile: ./dataloader/Dockerfile_es
       args:
         BACKEND_SOURCE_FOLDER: ${BACKEND_SOURCE_FOLDER}
-        BENTO_DATA_MODEL: ${BENTO_DATA_MODEL}
         NEO4J_USER: ${NEO4J_USER}
         NEO4J_PASS: ${NEO4J_PASS}
         NEO4J_HOST: ${NEO4J_HOST}
+        ES_HOST: ${ES_HOST}
     networks:
       - default

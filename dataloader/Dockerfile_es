@@ -1,0 +1,43 @@
+# Pull the base image from Ubuntu
+FROM ubuntu:latest AS base
+
+RUN echo "Loading ES dataloader code and dependencies"
+
+RUN apt-get update \
+ && apt-get install -y python3 python3-pip git
+
+RUN echo "cloning dataloader code" \
+ && git clone --single-branch --branch master --recurse-submodules -j8 https://github.com/CBIIT/icdc-dataloader.git /usr/local/icdc_dataloader \
+ && cd /usr/local/icdc_dataloader \
+ && pip3 install -r requirements.txt
+
+# Data loading phase
+FROM base AS load_data
+
+# break caching for lines below this. This allows reloading data on every build without re-running setup tasks
+ADD https://www.timeanddate.com/worldclock/usa/baltimore /tmp/bustcache
+
+ARG BACKEND_SOURCE_FOLDER
+ARG NEO4J_PASS
+ARG NEO4J_USER
+ARG NEO4J_HOST
+ARG ES_HOST
+ENV ES_HOST=${ES_HOST}
+
+# copy indices file from backend
+COPY ${BACKEND_SOURCE_FOLDER}/src/main/resources/yaml/es_indices_bento.yml /usr/local/icdc_dataloader/config/es_indices_bento.yml
+
+# update the neo4j credentials in the dataloader config file
+RUN cp /usr/local/icdc_dataloader/config/es_loader.yml.j2 /usr/local/icdc_dataloader/config/es_loader_local.yml \
+ && sed -i "s/\"{{ neo4j_password }}\"/${NEO4J_PASS}/g" /usr/local/icdc_dataloader/config/es_loader_local.yml \
+ && sed -i "s/{{neo4j_ip}}/${NEO4J_HOST}/g" /usr/local/icdc_dataloader/config/es_loader_local.yml \
+ && sed -i "s/{{ es_host }}/${ES_HOST}/g" /usr/local/icdc_dataloader/config/es_loader_local.yml
+
+ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/e1f115e4ca285c3c24e847c4dd4be955e0ed51c2/wait-for-it.sh /tmp/wait-for-it.sh
+RUN chmod +x /tmp/wait-for-it.sh
+
+ENTRYPOINT echo "loading data from neo4j to $ES_HOST" \
+ && cat /usr/local/icdc_dataloader/config/es_loader_local.yml \
+ && cd /usr/local/icdc_dataloader \
+ && /tmp/wait-for-it.sh -t 0 $ES_HOST:9200 -- python3 es_loader.py config/es_indices_bento.yml config/es_loader_local.yml \
+ && /bin/bash

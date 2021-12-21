@@ -27,6 +27,9 @@ set /p MODEL_REPO="set bento-model repository [%MODEL_REPO%]: "
 set /p MODEL_BRANCH="set bento-model branch [%MODEL_BRANCH%]: "
 echo.
 
+REM // Set GIT to preserve line endings
+git config auto.crlf false
+
 IF EXIST %ROOT_PATH%\%BACKEND_SOURCE_FOLDER% (
 echo The backend repository is already initialized in:  %ROOT_PATH%\%BACKEND_SOURCE_FOLDER%. Please remove this folder and re-initialize the project.
 ) ELSE (
