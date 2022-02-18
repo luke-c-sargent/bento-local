@@ -17,7 +17,7 @@ FROM base AS load_data
 # break caching for lines below this. This allows reloading data on every build without re-running setup tasks
 ADD https://www.timeanddate.com/worldclock/usa/baltimore /tmp/bustcache
 
-ARG BACKEND_SOURCE_FOLDER
+ARG FRONTEND_SOURCE_FOLDER
 ARG BENTO_DATA_MODEL
 ARG NEO4J_PASS
 ENV Neo4jPass=${NEO4J_PASS}
@@ -28,7 +28,7 @@ ENV Neo4jHost=${NEO4J_HOST}
 
 # Copy data and config files to the container
 ADD ./data /tmp/neo4j_data
-ADD ${BACKEND_SOURCE_FOLDER} /usr/local/bento-backend
+ADD ${FRONTEND_SOURCE_FOLDER} /usr/local/bento-frontend
 ADD ${BENTO_DATA_MODEL} /usr/local/bento-model
 COPY ./dataloader/bento-local.yml /usr/local/icdc_dataloader
 
@@ -41,7 +41,7 @@ ENTRYPOINT echo "loading provided dataset" \
  && cd /usr/local/icdc_dataloader \
  && python3 loader.py bento-local.yml \
  && echo "loading provided schema" \
- && cd /usr/local/bento-backend \
+ && cd /usr/local/bento-frontend \
  && basicAuth=$(echo "Basic $(echo -n "$Neo4jUser:$Neo4jPass" | base64)") \
- && curl -v -X POST http://$Neo4jHost:7474/graphql/idl/ -H 'Accept: application/json' -H "Authorization: $basicAuth" -d @./src/main/resources/graphql/bento-extended.graphql \
+ && curl -v -X POST http://$Neo4jHost:7474/graphql/idl/ -H 'Accept: application/json' -H "Authorization: $basicAuth" -d @./graphql/bento-extended.graphql \
  && /bin/bash
