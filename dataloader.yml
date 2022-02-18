@@ -6,7 +6,6 @@ services:
       context: .
       dockerfile: ./dataloader/Dockerfile
       args:
-        FRONTEND_SOURCE_FOLDER: ${FRONTEND_SOURCE_FOLDER}
         BENTO_DATA_MODEL: ${BENTO_DATA_MODEL}
         NEO4J_USER: ${NEO4J_USER}
         NEO4J_PASS: ${NEO4J_PASS}
