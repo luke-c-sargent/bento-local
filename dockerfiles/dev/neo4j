@@ -1,5 +1,5 @@
 # Pull the base image from Neo4j
-FROM neo4j:4.2.5
+FROM neo4j:4.2.14
 
 # Get APOC
 ARG NEO4J_PLUGIN_DIR="/var/lib/neo4j/plugins"
