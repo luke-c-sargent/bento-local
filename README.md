@@ -29,14 +29,28 @@ Bento-local consists of three components hosted within Docker containers and a s
 * Local URL:	http://localhost:8080/
 * Note: The Backend container will make requests to Neo4j over port 7474 and pass requested data to the Frontend. This container is built using a local checkout of the bento-backend repository.
 
+**File Downloader**
+
+* Local URL:	http://localhost:8081/
+* Note: The Bento-Local File Downloader will simulate the functionality used by Bento for downloading data files. This function is run in a simulation mode and will not include the full implementation of this feature.
+
 **Neo4j:**
 
 * Local URL:	http://localhost:7474/
-* Note: The Neo4j container holds the graph database for the Bento system and will return data to the Backend when requested
+* Note: The Neo4j container holds the graph database for the Bento system and will return data to the Backend when requested.
 
-**Dataloader:**
+**Elasticsearch:**
 
-* The Dataloader container will load a local data set into the graph database hosted within the Neo4j container. This component requires local copies of the bento-backend and bento-model repositories as well as a local copy of the data to be loaded. This container will not continue running after data has been loaded.
+* Local URL:	http://localhost:9200/
+* Note: The Elasticsearch container holds the Elasticsearch database for the Bento system. When running in "build" mode it will be required to run the Elasticsearch dataloader in order to populate this database ("dev" mode does this automatically).
+
+**Bento Dataloader:**
+
+The Bento Dataloader performs two functions:
+ 
+* Dataloader: The Dataloader will load a local data set into the graph database hosted within the Neo4j container. This component requires local copies of the bento-backend and bento-model repositories as well as a local copy of the data to be loaded. In order to load data using this feature the Bento-Local Neo4j container must be running.
+* Dataloader-es: The Elasticsearch Dataloader will load required data from the Bento-Local Neo4j database into the Bento-Local Elasticsearch database. In order to load data using this feature the Bento-Local Neo4j container and the Bento-Local Elasticsearch container must both be running.
+
 
 ## Installing Docker
 To install Docker choose from the following options:
@@ -72,6 +86,7 @@ Details for the initialization script can be found in the README file in bento-l
 
 * bento-frontend: cloned from https://github.com/CBIIT/bento-frontend.git
 * bento-backend: cloned from https://github.com/CBIIT/bento-backend.git
+* bento-files: cloned from https://github.com/CBIIT/bento-files.git
 * bento-model: cloned from https://github.com/CBIIT/bento-model.git
 * data: a copy of the included demo data
 
@@ -91,9 +106,17 @@ The bento-local build and initialization scripts use configuration options defin
 USE_DEMO_DATA=yes
 # Set to "yes" to seed the project with the provided demo data set
 
+BACKEND_REPO=https://github.com/CBIIT/bento-backend.git
 BACKEND_BRANCH=master
+
+FRONTEND_REPO=https://github.com/CBIIT/bento-frontend.git
 FRONTEND_BRANCH=master
-MODEL_BRANCH=bento_core_data_model_tailorx_extension
+
+MODEL_REPO=https://github.com/CBIIT/BENTO-TAILORx-model.git
+MODEL_BRANCH=master
+
+FILES_REPO=https://github.com/CBIIT/bento-files.git
+FILES_BRANCH=main
 # Set these variables to the desired branches to use when initializing the project with Bento source code
 
 ########################################
@@ -102,7 +125,10 @@ MODEL_BRANCH=bento_core_data_model_tailorx_extension
 #                                      #
 ########################################
 
-BUILD_MODE=build
+DATE=01/01/2022
+# Defines the current date (used for files container)
+
+BUILD_MODE=dev
 # Defines the build type used when building the project. Available options are:  build, dev
 
 FRONTEND_SOURCE_FOLDER=bento-frontend
@@ -111,8 +137,17 @@ FRONTEND_SOURCE_FOLDER=bento-frontend
 BACKEND_SOURCE_FOLDER=bento-backend
 # Set to your local copy of the backend code - the default value for this is "bento-backend". NOTE: this folder MUST be located within the folder specific to the project you are building
 
+FILES_SOURCE_FOLDER=bento-files
+# Set to your local copy of the files code - the default value for this is "bento-files". NOTE: this folder MUST be located within the folder specific to the project you are building
+
 BENTO_DATA_MODEL=bento-model
 # Set to your local copy of the Bento data model - the default value for this is "bento-model". NOTE: this folder MUST be located within the folder specific to the project you are building
+
+ES_HOST=bento-es
+# The hostname to use when connecting to elasticsearch - the default value for this is set to use the local elasticsearch container created by bento-local
+
+NEO4J_HOST=neo4j
+# The hostname to use when connecting to neo4j with the bento-local dataloader - the default value for this is set to use the local neo4j container created by bento-local
 
 NEO4J_USER=neo4j
 # The user name to set for Neo4j - this should remain as the default value of "neo4j" for local neo4j containers
@@ -121,7 +156,7 @@ NEO4J_PASS=neo4j_pass
 # The password to set for Neo4j. This can be changed if desired
 ```
 
-Note that the locations of the FRONTEND_SOURCE_FOLDER, BACKEND_SOURCE_FOLDER, and BENTO_DATA_MODEL are important. These values are relative paths and must be within the root of the Bento-Local project.
+Note that the locations of the FRONTEND_SOURCE_FOLDER, BACKEND_SOURCE_FOLDER, FILES_SOURCE_FOLDER, and BENTO_DATA_MODEL are important. These values are relative paths and must be within the root of the Bento-Local project.
 
 ### Run the Bento-local Environment
 
@@ -143,7 +178,7 @@ To build the bento-local infrastructure and start all containers:
 	* Windows:    $Env:COMPOSE_DOCKER_CLI_BUILD=1; $Env:DOCKER_BUILDKIT=1; docker-compose up -d
 	* Linux/Mac:  COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose up -d
 
-To rebuild an individual container (NOTE: The available containers for this command are: bento-backend, bento-frontend, neo4j):
+To rebuild an individual container (NOTE: The available containers for this command are: bento-backend, bento-frontend, bento-files, bento-es, neo4j):
 
 	* Windows:    $Env:COMPOSE_DOCKER_CLI_BUILD=1; $Env:DOCKER_BUILDKIT=1; docker-compose up -d --no-deps --build <service_name>
 	* Linux/Mac:  COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose up -d --no-deps --build <service_name>
@@ -160,7 +195,7 @@ To stop a single running container:
 	
 To attach a shell to a running container:
 
-	docker exec -it <container name> /bin/bash   (use /bin/ash for frontend and backend containers as they are based on alpine)
+	docker exec -it <container name> /bin/sh
 
 ### Changing the Bento-local build mode
 To change the build mode of your Bento-Local project the following steps must be taken:
@@ -190,12 +225,21 @@ To clean all docker volumes (NOTE: this will remove any data loaded into Neo4j):
 
 ### Commands for running the Bento-local dataloader:
 Note that the dataloader requires the following local resources:
-* A local copy of the bento-backend source code. This will be used to supply schema files. The location of this folder must be within the root folder of the version of bento-local you are using and its location is set by the BACKEND_SOURCE_FOLDER variable in the .env file. This can be obtained by running the initialization script.
+* A local copy of the bento-frontend source code. This will be used to supply schema files. The location of this folder must be within the root folder of the version of bento-local you are using and its location is set by the FRONTEND_SOURCE_FOLDER variable in the .env file. This can be obtained by running the initialization script.
 * A local copy of the bento-model source code. This will be used to supply data model files. The location of this folder must be within the root folder of the version of bento-local you are using and its location is set by the BENTO_DATA_MODEL variable in the .env file. The Bento data model can be found at:  https://github.com/CBIIT/bento-model.git.  This can be obtained by running the initialization script.
 * A local copy of the data you intend to load. This data must be configured to match the Bento data model and schema and located in a folder named "data" within the bento-local project (ex. "bento-local/dev_mode/data").  A set of demo data can be obtained by running the initialization script.
 * A properly configured copy of the dataloader configuration file located at dataloader/bento-local.yml. This file does not require any changes from the version in Github and will use the neo4j credentials and folder locations defined in the .env file.
 
-To start the bento-dataloader container and load data:
+To start the Dataloader container and load data to Neo4j:
 
 	* Windows:    $Env:COMPOSE_DOCKER_CLI_BUILD=1; $Env:DOCKER_BUILDKIT=1; docker-compose -f dataloader.yml up --build bento-dataloader
 	* Linux/Mac:  COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f dataloader.yml up --build bento-dataloader
+
+* NOTE: In order to load data using this feature the Bento-Local neo4j container must be running.
+
+To start the Dataloader container and load data from Neo4j to Elasticsearch:
+
+	* Windows:    $Env:COMPOSE_DOCKER_CLI_BUILD=1; $Env:DOCKER_BUILDKIT=1; docker-compose -f dataloader-es.yml up --build bento-dataloader-es
+	* Linux/Mac:  COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f dataloader-es.yml up --build bento-dataloader-es
+
+* NOTE: In order to load data using this feature the Bento-Local neo4j container and bento-es must be running.
