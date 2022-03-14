@@ -69,7 +69,7 @@ services:
       context: .
       dockerfile: ./dockerfiles/${BUILD_MODE}/filedownload
       args:
-        FILES_SOURCE_FOLDER: ${FILES_SOURCE_FOLDER}
+        FILES_BRANCH: ${FILES_BRANCH}
     environment:
       - VERSION=${FILES_BRANCH}
       - DATE=${DATE}
@@ -80,6 +80,28 @@ services:
       - default
     ports:
       - 8081:8081
+    restart: always
+
+  bento-auth:
+    container_name: auth
+    build:
+      context: .
+      dockerfile: ./dockerfiles/${BUILD_MODE}/auth
+      args:
+        AUTH_BRANCH: ${AUTH_BRANCH}
+    environment:
+      - VERSION=${AUTH_BRANCH}
+      - DATE=${DATE}
+      - PROJECT=BENTO
+      - COOKIE_SECRET=${AUTH_COOKIE_SECRET}
+      - IDP=google
+      - CLIENT_ID=${AUTH_IDP_CLIENT_ID}
+      - CLIENT_SECRET=${AUTH_IDP_CLIENT_SECRET}
+      - REDIRECT_URL=http://localhost:8085/
+    networks:
+      - default
+    ports:
+      - 8082:8082
     restart: always
 
   bento-es:
