@@ -193,7 +193,7 @@ To stop a single running container:
 	* Windows:    $Env:COMPOSE_DOCKER_CLI_BUILD=1; $Env:DOCKER_BUILDKIT=1; docker-compose down <service_name>
 	* Linux/Mac:  COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose down <service_name>
 	
-To attach a shell to a running container:
+To attach a shell to a running container (this can be useful when verifying configurations or troubleshooting):
 
 	docker exec -it <container name> /bin/sh
 
@@ -242,4 +242,4 @@ To start the Dataloader container and load data from Neo4j to Elasticsearch:
 	* Windows:    $Env:COMPOSE_DOCKER_CLI_BUILD=1; $Env:DOCKER_BUILDKIT=1; docker-compose -f dataloader-es.yml up --build bento-dataloader-es
 	* Linux/Mac:  COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f dataloader-es.yml up --build bento-dataloader-es
 
-* NOTE: In order to load data using this feature the Bento-Local neo4j container and bento-es must be running.
+* NOTE: In order to load data using this feature both the Bento-Local neo4j container and the bento-es container must be running.
