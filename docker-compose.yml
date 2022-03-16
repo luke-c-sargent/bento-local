@@ -48,6 +48,8 @@ services:
       - REACT_APP_ABOUT_CONTENT_URL=https://raw.githubusercontent.com/CBIIT/bento-frontend/master/src/content/dev/aboutPagesContent.yaml
       - REACT_APP_BE_VERSION=${BACKEND_BRANCH}
       - REACT_APP_FE_VERSION=${FRONTEND_BRANCH}
+      - REACT_APP_GOOGLE_CLIENT_ID=${AUTH_IDP_CLIENT_ID}
+      - REACT_APP_AUTH_API=http://localhost:8082
     volumes:
       - ./${FRONTEND_SOURCE_FOLDER}:/usr/local/bento-frontend
       - /usr/local/bento-frontend/node_modules
@@ -97,7 +99,7 @@ services:
       - IDP=google
       - CLIENT_ID=${AUTH_IDP_CLIENT_ID}
       - CLIENT_SECRET=${AUTH_IDP_CLIENT_SECRET}
-      - REDIRECT_URL=http://localhost:8085/
+      - REDIRECT_URL=http://localhost:8085
     networks:
       - default
     ports:
