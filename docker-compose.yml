@@ -33,7 +33,7 @@ services:
     container_name: frontend
     build:
       context: .
-      dockerfile: ./dockerfiles/${BUILD_MODE}/frontend-es
+      dockerfile: ./dockerfiles/${BUILD_MODE}/frontend
       args:
         FRONTEND_SOURCE_FOLDER: ${FRONTEND_SOURCE_FOLDER}
         BACKEND_SOURCE_FOLDER: ${BACKEND_SOURCE_FOLDER}
