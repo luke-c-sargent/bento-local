@@ -7,13 +7,13 @@ title: Installing Bento on Your Local Machine
 # Installing Bento on Your Local Machine
 
 ## Introduction
-The Bento-Local environment is designed to run directly within Docker on a user’s workstation. This allows users to create and deploy their local copy of Bento with minimal changes to their local environment and allows a configuration that can be used with different workstation operating systems. 
+The Bento-Local environment is designed to run directly within Docker on a user’s workstation. This allows users to create and deploy their local copy of Bento with minimal changes to their local environment and allows for a configuration that can be used with different workstation operating systems. 
 
 The Bento-Local project supports the following build modes:
-* Build:  this build mode will create production ready frontend and backend Bento Docker containers. This mode requires users to have local copies of the bento-frontend and bento-backend repositories configured as needed for the build. Note that when using build mode there are no changes made to the source code made during the build process, any changes or configurations made to the user's local copy of the source code will be reflected in the build.
-* Dev:  this build mode will create Bento Docker containers suitable for local development. Note that in this mode configuration changes will be made during the build process to use Bento-Local resources and the frontend website will reflect any changes made in the user's local copy of the source code live. The frontend container in this mode will run on port 8085 and will require using the following URL:  http://localhost:8085
+* Build:  this build mode will create production ready frontend and backend Bento Docker containers. This mode requires users to have local copies of the bento-frontend and bento-backend repositories configured as needed for the build. Note that when using build mode, there are no changes to the source code made during the build process, any changes or configurations made to the user's local copy of the source code will be reflected in the build.
+* Dev:  this build mode will create Bento Docker containers suitable for local development. Note that in this mode, configuration changes will be made during the build process to use Bento-Local resources and the frontend website will reflect any changes made in the user's local copy of the source code live. The frontend container in this mode will run on port 8085 and will require using the following URL:  http://localhost:8085
 
-All local copies of source code and configuration files used for your environment must reside within the root of the Bento-Local project folder. For example, copies of the Bento source code must be located at "bento-local/[source folder]".
+All local copies of source code and configuration files used for an environment must reside within the root of the Bento-Local project folder. For example, copies of the Bento source code must be located at "bento-local/[source folder]".
 
 
 Bento-local consists of three components hosted within Docker containers and a separate Dataloader container that will run the Bento dataloader scripts. Depending on configuration options the build can take several minutes. When the build is complete the Bento components will be configured as follows:
@@ -22,12 +22,12 @@ Bento-local consists of three components hosted within Docker containers and a s
 
 * Local URL (build mode):	http://localhost/
 * Local URL (dev mode):	http://localhost:8085/
-* Note: The Frontend container will make requests to the backend over port 8080. This container is built using a local checkout of the bento-frontend repository.
+* Note: The Frontend container will make requests to the backend over port 8080. This container is built using a local git checkout of the bento-frontend repository.
 
 **Back End:**  
 
 * Local URL:	http://localhost:8080/
-* Note: The Backend container will make requests to Neo4j over port 7474 and pass requested data to the Frontend. This container is built using a local checkout of the bento-backend repository.
+* Note: The Backend container will make requests to Neo4j over port 7474 and pass requested data to the Frontend. This container is built using a local git checkout of the bento-backend repository.
 
 **File Downloader**
 
@@ -42,14 +42,14 @@ Bento-local consists of three components hosted within Docker containers and a s
 **Elasticsearch:**
 
 * Local URL:	http://localhost:9200/
-* Note: The Elasticsearch container holds the Elasticsearch database for the Bento system. When running in "build" mode it will be required to run the Elasticsearch dataloader in order to populate this database ("dev" mode does this automatically).
+* Note: The Elasticsearch container holds the Elasticsearch database for the Bento system. When running in "build" mode it will be required to run the Elasticsearch dataloader in order to populate the database ("dev" mode does this automatically).
 
 **Bento Dataloader:**
 
 The Bento Dataloader performs two functions:
  
-* Dataloader: The Dataloader will load a local data set into the graph database hosted within the Neo4j container. This component requires local copies of the bento-backend and bento-model repositories as well as a local copy of the data to be loaded. In order to load data using this feature the Bento-Local Neo4j container must be running.
-* Dataloader-es: The Elasticsearch Dataloader will load required data from the Bento-Local Neo4j database into the Bento-Local Elasticsearch database. In order to load data using this feature the Bento-Local Neo4j container and the Bento-Local Elasticsearch container must both be running.
+* Dataloader: The Dataloader will load a local dataset into the graph database hosted within the Neo4j container. This component requires local copies of the bento-backend and bento-model repositories as well as a local copy of the data to be loaded. In order to load data using this feature the Bento-Local Neo4j container must be running.
+* Dataloader-es: The Elasticsearch Dataloader will load required data from the Bento-Local Neo4j database into the Bento-Local Elasticsearch database. In order to load data using this feature, the Bento-Local Neo4j container and the Bento-Local Elasticsearch container must both be running.
 
 
 ## Installing Docker
@@ -80,9 +80,9 @@ You can pull these onto your local workstation using any git client you have ins
 
 ### Initialize your bento-local project
 
-Bento-Local includes initialization scripts that will prepare your local checkout for building. These scripts will checkout all of the required Bento source code and include demo data to use if desired. After running the initialization script your Bento-Local project will be ready to be built.
+Bento-Local includes initialization scripts that will prepare your local checkout for building. These scripts will checkout all of the required Bento source code and include demo data to use if desired. After running the initialization scripts your Bento-Local project will be ready to be built.
 
-Details for the initialization script can be found in the README file in bento-local/initialization. Note that for modes other than "dev_mode" building bento-local will require updates to configuration files. Initializing your bento-local project will create the following additional folders:
+Details for the initialization script can be found in the README file in bento-local/initialization. Note that for modes other than "dev_mode", building bento-local will require updates to configuration files. Initializing your bento-local project will create the following additional folders:
 
 * bento-frontend: cloned from https://github.com/CBIIT/bento-frontend.git
 * bento-backend: cloned from https://github.com/CBIIT/bento-backend.git
@@ -198,6 +198,7 @@ To attach a shell to a running container (this can be useful when verifying conf
 	docker exec -it <container name> /bin/sh
 
 ### Changing the Bento-local build mode
+
 To change the build mode of your Bento-Local project the following steps must be taken:
 
 * Update the BUILD_MODE variable in the .env file: this should be changed to the desired mode
@@ -212,6 +213,7 @@ To change the build mode of your Bento-Local project the following steps must be
 Taking these steps will rebuild the Bento-Local environment with the desired build mode. Note that rebuilding Bento-Local does not require reloading data.
 
 ### Cleaning your Bento-local project
+
 The following commands can be used to remove the Docker cache and to return your system to a clean state. When running these commands only unused objects will be removed - if you want to fully remove all cached objects you will need to stop all running Docker containers by running "docker-compose down"
 
 To clean docker objects for all stopped containers (this command can be used to return to a clean system and start over with new configurations):
@@ -224,7 +226,9 @@ To clean all docker volumes (NOTE: this will remove any data loaded into Neo4j):
 
 
 ### Commands for running the Bento-local dataloader:
+
 Note that the dataloader requires the following local resources:
+
 * A local copy of the bento-frontend source code. This will be used to supply schema files. The location of this folder must be within the root folder of the version of bento-local you are using and its location is set by the FRONTEND_SOURCE_FOLDER variable in the .env file. This can be obtained by running the initialization script.
 * A local copy of the bento-model source code. This will be used to supply data model files. The location of this folder must be within the root folder of the version of bento-local you are using and its location is set by the BENTO_DATA_MODEL variable in the .env file. The Bento data model can be found at:  https://github.com/CBIIT/bento-model.git.  This can be obtained by running the initialization script.
 * A local copy of the data you intend to load. This data must be configured to match the Bento data model and schema and located in a folder named "data" within the bento-local project (ex. "bento-local/dev_mode/data").  A set of demo data can be obtained by running the initialization script.
