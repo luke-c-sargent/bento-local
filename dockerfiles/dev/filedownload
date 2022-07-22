@@ -6,7 +6,7 @@ ENV NODE_ENV production
 ARG FILES_SOURCE_FOLDER
 
 RUN mkdir -p /usr/src/app
-COPY ${FILES_SOURCE_FOLDER}/package*.json /usr/src/app
+COPY ${FILES_SOURCE_FOLDER}/package*.json /usr/src/app/
 
 WORKDIR /usr/src/app
 RUN npm ci --only=production
