@@ -33,7 +33,7 @@ services:
     container_name: frontend
     build:
       context: .
-      dockerfile: ./dockerfiles/${BUILD_MODE}/frontend-es
+      dockerfile: ./dockerfiles/${BUILD_MODE}/frontend
       args:
         FRONTEND_SOURCE_FOLDER: ${FRONTEND_SOURCE_FOLDER}
         BACKEND_SOURCE_FOLDER: ${BACKEND_SOURCE_FOLDER}
@@ -43,8 +43,8 @@ services:
         NEO4J_HOST: ${NEO4J_HOST}
         ES_HOST: ${ES_HOST}
     environment:
-      - REACT_APP_BACKEND_API=http://localhost:8080/v1/graphql/
-      - REACT_APP_FILE_SERVICE_API=https://localhost:8081/api/files/
+      - REACT_APP_BACKEND_API=http://${BACKEND_HOST}:8080/v1/graphql/
+      - REACT_APP_FILE_SERVICE_API=https://${FILES_HOST}:8081/api/files/
       - REACT_APP_ABOUT_CONTENT_URL=https://raw.githubusercontent.com/CBIIT/bento-frontend/master/src/content/dev/aboutPagesContent.yaml
       - REACT_APP_BE_VERSION=${BACKEND_BRANCH}
       - REACT_APP_FE_VERSION=${FRONTEND_BRANCH}
@@ -77,7 +77,7 @@ services:
       - DATE=${DATE}
       - PROJECT=BENTO
       - URL_SRC=DUMMY
-      - BACKEND_URL=http://localhost:8080/v1/graphql/
+      - BACKEND_URL=http://${BACKEND_HOST}:8080/v1/graphql/
     networks:
       - default
     ports:
