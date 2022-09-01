@@ -26,8 +26,6 @@ $user_data = Read-Host -Prompt "set bento-backend repo [$($properties.BACKEND_RE
 $user_data = Read-Host -Prompt "set bento-backend branch [$($properties.BACKEND_BRANCH)]"; if (!([string]::IsNullOrWhiteSpace($user_data))) { $properties.BACKEND_BRANCH = $user_data }
 $user_data = Read-Host -Prompt "set bento-frontend repo [$($properties.FRONTEND_REPO)]"; if (!([string]::IsNullOrWhiteSpace($user_data))) { $properties.FRONTEND_REPO = $user_data }
 $user_data = Read-Host -Prompt "set bento-frontend branch [$($properties.FRONTEND_BRANCH)]"; if (!([string]::IsNullOrWhiteSpace($user_data))) { $properties.FRONTEND_BRANCH = $user_data }
-$user_data = Read-Host -Prompt "set bento-files repo [$($properties.FILES_REPO)]"; if (!([string]::IsNullOrWhiteSpace($user_data))) { $properties.FILES_REPO = $user_data }
-$user_data = Read-Host -Prompt "set bento-files branch [$($properties.FILES_BRANCH)]"; if (!([string]::IsNullOrWhiteSpace($user_data))) { $properties.FILES_BRANCH = $user_data }
 $user_data = Read-Host -Prompt "set bento-model repo [$($properties.MODEL_REPO)]"; if (!([string]::IsNullOrWhiteSpace($user_data))) { $properties.MODEL_REPO = $user_data }
 $user_data = Read-Host -Prompt "set bento-model branch [$($properties.MODEL_BRANCH)]"; if (!([string]::IsNullOrWhiteSpace($user_data))) { $properties.MODEL_BRANCH = $user_data }
 write-host
@@ -74,20 +72,6 @@ if ( Test-Path -Path "$projectPath\$($properties.BENTO_DATA_MODEL)" ) {
 	  write-host "ERROR CREATING BENTO MODEL FOLDER: $projectPath\$($properties.BENTO_DATA_MODEL) - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE RUNNING THE BENTO DATALOADER"
 	  } else {
 	      write-host "Created model folder: $projectPath\$($properties.BENTO_DATA_MODEL)"
-	      }
-	write-host
-    }
-
-if ( Test-Path -Path "$projectPath\$($properties.FILES_SOURCE_FOLDER)" ) {
-  write-host "The files repository is already initialized in:  $projectPath\$($properties.FILES_SOURCE_FOLDER). Please remove this folder and re-initialize the project."
-  write-host
-  } else {
-    write-host "Cloning bento-files repository:  $($properties.FILES_BRANCH) branch"
-	git clone -qb $($properties.FILES_BRANCH) --single-branch $($properties.FILES_REPO) $projectPath\$($properties.FILES_SOURCE_FOLDER)
-	if ( $lastexitcode -ne 0 ) {
-	  write-host "ERROR CREATING FILES SOURCE FOLDER: $projectPath\$($properties.FILES_SOURCE_FOLDER) - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL"
-	  } else {
-	      write-host "Created files source folder: $projectPath\$($properties.FILES_SOURCE_FOLDER)"
 	      }
 	write-host
     }

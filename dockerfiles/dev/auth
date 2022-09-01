@@ -1,14 +1,14 @@
 FROM node:16-alpine3.11
 
-ARG FILES_BRANCH
+ARG AUTH_BRANCH
 
-ENV PORT 8081
+ENV PORT 8082
 ENV NODE_ENV production
 
 RUN apk add --virtual .build-deps --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
  git
 
-RUN mkdir -p /usr/src/app && cd /usr/src/app && git clone -b ${FILES_BRANCH} https://github.com/CBIIT/bento-files.git .
+RUN mkdir -p /usr/src/app && cd /usr/src/app && git clone -b ${AUTH_BRANCH} https://github.com/CBIIT/bento-auth .
 
 WORKDIR /usr/src/app
 
@@ -16,6 +16,6 @@ RUN npm ci --only=production
 
 #USER node
 
-EXPOSE 8081
+EXPOSE 8082
 
 CMD [ "node", "./bin/www" ]
