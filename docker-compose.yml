@@ -17,6 +17,7 @@ services:
       #- NEO4J_GRAPHQL_ENDPOINT=http://${NEO4J_HOST}:7474/graphql/
       - BENTO_API_VERSION=${BACKEND_BRANCH}
       - AUTH_ENDPOINT=http://${BACKEND_HOST}/api/auth
+      - AUTH_ENABLED=false
       - REDIS_ENABLE=false
       - REDIS_USE_CLUSTER=false
       - REDIS_HOST=""
@@ -35,6 +36,7 @@ services:
 
   bento-frontend:
     container_name: frontend
+    platform: linux/amd64
     build:
       context: .
       dockerfile: ./dockerfiles/${BUILD_MODE}/frontend
@@ -134,6 +136,7 @@ services:
 
   neo4j:
     container_name: neo4j
+    platform: linux/amd64
     build:
       context: .
       dockerfile: ./dockerfiles/${BUILD_MODE}/neo4j
