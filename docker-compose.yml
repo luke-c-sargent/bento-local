@@ -14,7 +14,6 @@ services:
       - NEO4J_URL=bolt://${NEO4J_HOST}:7687
       - NEO4J_USER=${NEO4J_USER}
       - NEO4J_PASSWORD=${NEO4J_PASS}
-      #- NEO4J_GRAPHQL_ENDPOINT=http://${NEO4J_HOST}:7474/graphql/
       - BENTO_API_VERSION=${BACKEND_BRANCH}
       - AUTH_ENDPOINT=http://${BACKEND_HOST}/api/auth
       - AUTH_ENABLED=false
@@ -23,11 +22,10 @@ services:
       - REDIS_HOST=""
       - REDIS_FILTER_ENABLE=false
       - ES_HOST=${ES_HOST}
-      #- ES_FILTER_ENABLED=true
       - GRAPHQL_SCHEMA=graphql/bento-extended.graphql
-      - GRAPHQL_ES_SCHEMA=graphql/bento-private-es-schema.graphql
+      - GRAPHQL_ES_SCHEMA=graphql/bento-extended-private-es.graphql
       - GRAPHQL_PUBLIC_SCHEMA=graphql/bento-extended.graphql
-      - GRAPHQL_PUBLIC_ES_SCHEMA=graphql/bento-public-es-schema.graphql
+      - GRAPHQL_PUBLIC_ES_SCHEMA=graphql/bento-extended-public-es.graphql
     networks:
       - default
     ports:
@@ -55,12 +53,8 @@ services:
       - REACT_APP_ABOUT_CONTENT_URL=https://raw.githubusercontent.com/CBIIT/bento-frontend/master/src/content/dev/aboutPagesContent.yaml
       - REACT_APP_BE_VERSION=${BACKEND_BRANCH}
       - REACT_APP_FE_VERSION=${FRONTEND_BRANCH}
-      - REACT_APP_AUTH_API=http://localhost:8085
-      - REACT_APP_AUTH_SERVICE_API=http://localhost/api/auth
-      - REACT_APP_USER_SERVICE_API=http://localhost/api/users
-      - REACT_APP_NIH_CLIENT_ID=
-      - REACT_APP_NIH_AUTH_URL=- REACT_APP_GOOGLE_CLIENT_ID
-      - REACT_APP_GOOGLE_CLIENT_ID=${AUTH_IDP_CLIENT_ID}
+      - REACT_APP_AUTH_SERVICE_API=http://localhost/api/auth/
+      - REACT_APP_USER_SERVICE_API=http://localhost/api/users/
     volumes:
       - ./${FRONTEND_SOURCE_FOLDER}:/usr/local/bento-frontend
       - /usr/local/bento-frontend/node_modules
@@ -94,28 +88,6 @@ services:
     ports:
       - 8081:8081
     restart: always
-
-#  bento-auth:
-#    container_name: auth
-#    build:
-#      context: .
-#      dockerfile: ./dockerfiles/${BUILD_MODE}/auth
-#      args:
-#        AUTH_BRANCH: ${AUTH_BRANCH}
-#    environment:
-#      - VERSION=${AUTH_BRANCH}
-#      - DATE=${DATE}
-#      - PROJECT=BENTO
-#      - COOKIE_SECRET=${AUTH_COOKIE_SECRET}
-#      - IDP=google
-#      - CLIENT_ID=${AUTH_IDP_CLIENT_ID}
-#      - CLIENT_SECRET=${AUTH_IDP_CLIENT_SECRET}
-#      - REDIRECT_URL=http://localhost:8085
-#    networks:
-#      - default
-#    ports:
-#      - 8082:8082
-#    restart: always
 
   bento-es:
     container_name: bento-es

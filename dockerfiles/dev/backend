@@ -60,7 +60,7 @@ COPY ${FRONTEND_SOURCE_FOLDER}/graphql/bento-extended.graphql /usr/local/bento-b
 
 RUN cd /usr/local/bento-backend \
  && if [ -f src/main/resources/application.properties ]; then mv src/main/resources/application.properties src/main/resources/application.properties.bak; fi \
- && mv src/main/resources/application_example.properties src/main/resources/application.properties \
+ && mv src/main/resources/application_local.properties src/main/resources/application.properties \
  && mvn package -DskipTests
 
 # Copy war to tomcat webapps dir
