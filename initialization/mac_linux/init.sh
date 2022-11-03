@@ -37,7 +37,7 @@ then
   echo ""
 else
   echo "Cloning bento-backend repository:  $BACKEND_BRANCH branch"
-  git clone -b "$BACKEND_BRANCH" --single-branch "$BACKEND_REPO" "$projectPath/$BACKEND_SOURCE_FOLDER" &> /dev/null && echo "Created backend source folder: $projectPath/$BACKEND_SOURCE_FOLDER" || echo "ERROR CREATING BACKEND SOURCE FOLDER: $projectPath/$BACKEND_SOURCE_FOLDER - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL"
+  git clone --recursive -b "$BACKEND_BRANCH" --single-branch "$BACKEND_REPO" "$projectPath/$BACKEND_SOURCE_FOLDER" &> /dev/null && echo "Created backend source folder: $projectPath/$BACKEND_SOURCE_FOLDER" || echo "ERROR CREATING BACKEND SOURCE FOLDER: $projectPath/$BACKEND_SOURCE_FOLDER - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL"
   echo ""
 fi
 

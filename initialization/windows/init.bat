@@ -32,8 +32,7 @@ IF EXIST %ROOT_PATH%\%BACKEND_SOURCE_FOLDER% (
 echo The backend repository is already initialized in:  %ROOT_PATH%\%BACKEND_SOURCE_FOLDER%. Please remove this folder and re-initialize the project.
 ) ELSE (
 echo Cloning bento-backend repository:  %BACKEND_BRANCH% branch
-REM // git clone --recursive -b %BACKEND_BRANCH% --single-branch %BACKEND_REPO% %ROOT_PATH%\%BACKEND_SOURCE_FOLDER% >nul 2>&1
-git clone --recursive -b %BACKEND_BRANCH% --single-branch %BACKEND_REPO% %ROOT_PATH%\%BACKEND_SOURCE_FOLDER%
+git clone --recursive -b %BACKEND_BRANCH% --single-branch %BACKEND_REPO% %ROOT_PATH%\%BACKEND_SOURCE_FOLDER% >nul 2>&1
 IF ERRORLEVEL 1 (
 echo ERROR CREATING BACKEND SOURCE FOLDER: %ROOT_PATH%\%BACKEND_SOURCE_FOLDER% - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL
 ) ELSE (
