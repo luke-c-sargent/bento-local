@@ -51,6 +51,27 @@ The Bento Dataloader performs two functions:
 * Dataloader: The Dataloader will load a local dataset into the graph database hosted within the Neo4j container. This component requires local copies of the bento-backend and bento-model repositories as well as a local copy of the data to be loaded. In order to load data using this feature the Bento-Local Neo4j container must be running.
 * Dataloader-es: The Elasticsearch Dataloader will load required data from the Bento-Local Neo4j database into the Bento-Local Elasticsearch database. In order to load data using this feature, the Bento-Local Neo4j container and the Bento-Local Elasticsearch container must both be running.
 
+## Configuring the Runtime Environment
+
+Here are instructions for configuring specific environments:
+
+### Amazon Linux
+
+The AWS WorkSpaces provisioned for Bento developers need additional configuration to successfully build the containers provided by `bento-local`.
+
+1. Edit the system's `/etc/resolv.conf` file by commenting out the existing name servers. For example:
+
+    ```text
+    #nameserver 172.16.0.58
+    #nameserver 172.16.1.121
+    #nameserver 198.19.0.2
+    ```
+
+2. Edit the system's `/etc/resolv.conf` file by adding the following line:
+
+    ```text
+    nameserver 8.8.8.8
+    ```
 
 ## Installing Docker
 To install Docker choose from the following options:
