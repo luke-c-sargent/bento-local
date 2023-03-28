@@ -8,7 +8,7 @@ ENV NODE_ENV production
 RUN apk add --virtual .build-deps --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
  git
 
-RUN mkdir -p /usr/src/app && cd /usr/src/app && git clone -b ${FILES_BRANCH} https://github.com/CBIIT/bento-files.git .
+RUN mkdir -p /usr/src/app && cd /usr/src/app && git clone -b ${FILES_BRANCH} https://github.com/CBIIT/bento-files.git . && git submodule update --init --recursive
 
 WORKDIR /usr/src/app
 
