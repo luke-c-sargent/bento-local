@@ -106,7 +106,7 @@ Bento-Local includes initialization scripts that will prepare your local checkou
 Details for the initialization script can be found in the README file in bento-local/initialization. Note that for modes other than "dev_mode", building bento-local will require updates to configuration files. Initializing your bento-local project will create the following additional folders:
 
 * bento-frontend: cloned from https://github.com/CBIIT/bento-frontend.git
-* bento-backend: cloned from https://github.com/CBIIT/bento-backend.git
+* bento-backend: cloned from https://github.com/CBIIT/bento-RI-backend.git
 * bento-files: cloned from https://github.com/CBIIT/bento-files.git
 * bento-model: cloned from https://github.com/CBIIT/bento-model.git
 * data: a copy of the included demo data
@@ -127,7 +127,7 @@ The bento-local build and initialization scripts use configuration options defin
 USE_DEMO_DATA=yes
 # Set to "yes" to seed the project with the provided demo data set
 
-BACKEND_REPO=https://github.com/CBIIT/bento-backend.git
+BACKEND_REPO=https://github.com/CBIIT/bento-RI-backend.git
 BACKEND_BRANCH=master
 
 FRONTEND_REPO=https://github.com/CBIIT/bento-frontend.git
@@ -136,9 +136,7 @@ FRONTEND_BRANCH=master
 MODEL_REPO=https://github.com/CBIIT/BENTO-TAILORx-model.git
 MODEL_BRANCH=master
 
-FILES_REPO=https://github.com/CBIIT/bento-files.git
 FILES_BRANCH=main
-# Set these variables to the desired branches to use when initializing the project with Bento source code
 
 ########################################
 #                                      #
@@ -146,11 +144,14 @@ FILES_BRANCH=main
 #                                      #
 ########################################
 
-DATE=01/01/2022
+COMPOSE_HTTP_TIMEOUT=200
+# set docker timeout
+
+DATE=01/01/2023
 # Defines the current date (used for files container)
 
 BUILD_MODE=dev
-# Defines the build type used when building the project. Available options are:  build, dev
+# Defines the build type used when building the project. Available options are:  demo, build, dev
 
 FRONTEND_SOURCE_FOLDER=bento-frontend
 # Set to your local copy of the frontend code - the default value for this is "bento-frontend". NOTE: this folder MUST be located within the folder specific to the project you are building
@@ -158,11 +159,14 @@ FRONTEND_SOURCE_FOLDER=bento-frontend
 BACKEND_SOURCE_FOLDER=bento-backend
 # Set to your local copy of the backend code - the default value for this is "bento-backend". NOTE: this folder MUST be located within the folder specific to the project you are building
 
-FILES_SOURCE_FOLDER=bento-files
-# Set to your local copy of the files code - the default value for this is "bento-files". NOTE: this folder MUST be located within the folder specific to the project you are building
-
 BENTO_DATA_MODEL=bento-model
 # Set to your local copy of the Bento data model - the default value for this is "bento-model". NOTE: this folder MUST be located within the folder specific to the project you are building
+
+FILES_HOST=localhost
+# The hostname to use when connecting to the files microservice - the default value for this is set to use localhost
+
+BACKEND_HOST=localhost
+# The hostname to use when connecting to the backend microservice - the default value for this is set to use localhost
 
 ES_HOST=bento-es
 # The hostname to use when connecting to elasticsearch - the default value for this is set to use the local elasticsearch container created by bento-local
@@ -177,7 +181,7 @@ NEO4J_PASS=neo4j_pass
 # The password to set for Neo4j. This can be changed if desired
 ```
 
-Note that the locations of the FRONTEND_SOURCE_FOLDER, BACKEND_SOURCE_FOLDER, FILES_SOURCE_FOLDER, and BENTO_DATA_MODEL are important. These values are relative paths and must be within the root of the Bento-Local project.
+Note that the locations of the FRONTEND_SOURCE_FOLDER and BACKEND_SOURCE_FOLDER are important. These values are relative paths and must be within the root of the Bento-Local project.
 
 ### Run the Bento-local Environment
 
