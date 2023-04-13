@@ -62,7 +62,7 @@ services:
       - neo4j
       - bento-backend
       - bento-files
-      - bento-es
+      - bento-os
     networks:
       - default
     ports:
@@ -92,9 +92,9 @@ services:
       - 8081:8081
     restart: always
 
-  bento-es:
-    container_name: bento-es
-    image: elasticsearch:7.10.1
+  bento-os:
+    container_name: bento-os
+    image: opensearchproject/opensearch:1.2.4
     environment:
       - ES_JAVA_OPTS=-Xms256m -Xmx256m
       - network.bind_host=0.0.0.0
@@ -107,7 +107,7 @@ services:
     ports:
       - 8086:80
       - 9200:9200
-      - 9300:9300
+      - 9600:9600
 
   neo4j:
     container_name: neo4j
