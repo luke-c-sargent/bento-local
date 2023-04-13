@@ -1,21 +1,22 @@
 # Pull the base image from Alpine
-FROM alpine:latest AS base
+FROM alpine:3.17.2
 MAINTAINER ESI Devops Team
 
-ENV TOMCAT_MAJOR=9
-ENV TOMCAT_VERSION=9.0.33
-ENV CATALINA_HOME=/usr/local/tomcat
-ENV TOMCAT_URL=https://archive.apache.org/dist/tomcat/tomcat-"$TOMCAT_MAJOR"/v"$TOMCAT_VERSION"/bin/apache-tomcat-"$TOMCAT_VERSION".tar.gz
-ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk
-ENV TOMCAT_USER=tomcat
-ENV TOMCAT_GROUP=tomcat
+ENV TOMCAT_MAJOR=10
+ENV TOMCAT_VERSION=10.1.6
+ENV CATALINA_HOME=/usr/local/tomcat 
+ENV TOMCAT_URL=https://archive.apache.org/dist/tomcat/tomcat-"$TOMCAT_MAJOR"/v"$TOMCAT_VERSION"/bin/apache-tomcat-"$TOMCAT_VERSION".tar.gz 
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk  
+ENV TOMCAT_USER=tomcat 
+ENV TOMCAT_GROUP=tomcat 
 ENV PATH=$CATALINA_HOME/bin:$JAVA_HOME/bin:$PATH
+ENV JAVA_OPTS $JAVA_OPTS -XX:InitialRAMPercentage=25 -XX:MaxRAMPercentage=70
+ENV TZ America/New_York
 
 WORKDIR $CATALINA_HOME
 
-#### Install Tomcat
 RUN apk upgrade --update \
- && apk --no-cache add openjdk11-jdk --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
+ && apk --no-cache add openjdk17-jdk tzdata --repository=https://dl-cdn.alpinelinux.org/alpine/v3.17/community
 RUN mkdir -p "$CATALINA_HOME" \
  && addgroup -g 3001 -S ${TOMCAT_GROUP} \
  && adduser --disabled-password --ingroup "${TOMCAT_USER}" --uid 3001 ${TOMCAT_USER} \
@@ -27,7 +28,7 @@ RUN mkdir -p "$CATALINA_HOME" \
  && chmod +x ${CATALINA_HOME}/bin/*.sh
 
 #### Install Maven
-ARG MAVEN_VERSION=3.6.3
+ARG MAVEN_VERSION=3.8.5
 ARG USER_HOME_DIR="/root"
 ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
 RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
@@ -54,9 +55,9 @@ ARG BACKEND_SOURCE_FOLDER
 RUN echo "Copying Backend Source..."
 COPY ${BACKEND_SOURCE_FOLDER} /usr/local/bento-backend
 
-RUN echo "Creating graphql directory in backend and copying schema file"
-RUN mkdir -p /usr/local/bento-backend/src/main/resources/graphql
-COPY ${FRONTEND_SOURCE_FOLDER}/graphql/bento-extended.graphql /usr/local/bento-backend/src/main/resources/graphql
+#RUN echo "Creating graphql directory in backend and copying schema file"
+#RUN mkdir -p /usr/local/bento-backend/src/main/resources/graphql
+#COPY ${FRONTEND_SOURCE_FOLDER}/graphql/bento-extended.graphql /usr/local/bento-backend/src/main/resources/graphql
 
 RUN cd /usr/local/bento-backend \
  && if [ -f src/main/resources/application.properties ]; then mv src/main/resources/application.properties src/main/resources/application.properties.bak; fi \
