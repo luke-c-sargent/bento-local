@@ -1,11 +1,11 @@
-FROM node:15.13.0-buster-slim
+FROM node:16.20.0-buster-slim
 MAINTAINER ESI Devops Team
 
 # install dependencies
 RUN apt-get update && apt-get install -y python3 python3-pip git npm
 
 # Update to the latest npm
-RUN npm install npm@7.7.6 -g
+#RUN npm install npm@7.7.6 -g
 
 ARG FRONTEND_SOURCE_FOLDER
 
