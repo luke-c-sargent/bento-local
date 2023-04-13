@@ -59,4 +59,4 @@ ENV MODEL_FILE2=/tmp/bento_tailorx_model_properties.yaml
 ENV ABOUT_FILE=/tmp/aboutPagesContent.yaml
 ENV PROPERTY_FILE=config/props-bento-ext.yml
 
-ENTRYPOINT [ "/bin/sh", "-c", "/tmp/wait-for-it.sh -t 0 $ES_HOST:9200 -- /tmp/es-loader-ubuntu.sh && npm run lint-fix && npm start" ]
+ENTRYPOINT [ "/bin/sh", "-c", "/tmp/wait-for-it.sh -t 0 $ES_HOST:9200 -- /tmp/es-loader-ubuntu.sh && npm run lint-fix && npx lerna run start" ]
