@@ -100,6 +100,7 @@ services:
       - network.bind_host=0.0.0.0
       - network.host=0.0.0.0
       - discovery.type=single-node
+      - plugins.security.disabled=true
     depends_on:
       - neo4j
     networks:
