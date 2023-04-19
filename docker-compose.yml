@@ -67,7 +67,7 @@ services:
       - default
     ports:
       - 80:80
-      - 8085:3000
+      - 8085:3010
     restart: always
 
   bento-files:
