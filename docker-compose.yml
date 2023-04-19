@@ -55,6 +55,11 @@ services:
       - REACT_APP_FE_VERSION=${FRONTEND_BRANCH}
       - REACT_APP_AUTH_SERVICE_API=http://localhost/api/auth/
       - REACT_APP_USER_SERVICE_API=http://localhost/api/users/
+      - AUTH=false
+      - PUBLIC_ACCESS='Metadata Only'
+      - NODE_LEVEL_ACCESS=false
+      - NODE_LABEL='Study Arm(s)'
+
     volumes:
       - ./${FRONTEND_SOURCE_FOLDER}:/usr/local/bento-frontend
       - /usr/local/bento-frontend/node_modules
