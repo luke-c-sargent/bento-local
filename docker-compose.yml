@@ -55,7 +55,7 @@ services:
       - REACT_APP_FE_VERSION=${FRONTEND_BRANCH}
       - REACT_APP_AUTH_SERVICE_API=http://localhost/api/auth/
       - REACT_APP_USER_SERVICE_API=http://localhost/api/users/
-      - AUTH=false
+      - REACT_APP_AUTH=false
       - PUBLIC_ACCESS='Metadata Only'
       - NODE_LEVEL_ACCESS=false
       - NODE_LABEL='Study Arm(s)'
