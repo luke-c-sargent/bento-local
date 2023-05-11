@@ -168,7 +168,7 @@ FILES_HOST=localhost
 BACKEND_HOST=localhost
 # The hostname to use when connecting to the backend microservice - the default value for this is set to use localhost
 
-ES_HOST=bento-es
+ES_HOST=bento-os
 # The hostname to use when connecting to elasticsearch - the default value for this is set to use the local elasticsearch container created by bento-local
 
 NEO4J_HOST=neo4j
