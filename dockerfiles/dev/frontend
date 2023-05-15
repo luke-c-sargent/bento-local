@@ -52,8 +52,8 @@ ADD ${FRONTEND_SOURCE_FOLDER} /usr/local/bento-frontend
 
 WORKDIR /usr/local/bento-frontend
 
-RUN npm install
+#RUN npm install
 
 EXPOSE 3010
 
-ENTRYPOINT [ "/bin/sh", "-c", "/tmp/wait-for-it.sh -t 0 $ES_HOST:9200 -- /tmp/es-loader-ubuntu.sh && chown -R root:root /usr/local/bento-frontend && npx lerna run start" ]
+ENTRYPOINT [ "/bin/sh", "-c", "/tmp/wait-for-it.sh -t 0 $ES_HOST:9200 -- /tmp/es-loader-ubuntu.sh && chown -R root:root /usr/local/bento-frontend && npm install && npx lerna run start" ]
