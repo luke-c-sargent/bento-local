@@ -1,6 +1,6 @@
 FROM node:16-alpine3.11
 
-ARG FILES_BRANCH
+ENV FILES_BRANCH=main
 
 ENV PORT 8081
 ENV NODE_ENV production
@@ -13,8 +13,6 @@ RUN mkdir -p /usr/src/app && cd /usr/src/app && git clone -b ${FILES_BRANCH} htt
 WORKDIR /usr/src/app
 
 RUN npm ci --only=production
-
-#USER node
 
 EXPOSE 8081
 
