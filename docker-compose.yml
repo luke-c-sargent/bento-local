@@ -80,10 +80,8 @@ services:
     build:
       context: .
       dockerfile: ./dockerfiles/${BUILD_MODE}/filedownload
-      args:
-        FILES_BRANCH: ${FILES_BRANCH}
     environment:
-      - VERSION=${FILES_BRANCH}
+      - VERSION=2.3.0.63
       - DATE=${DATE}
       - PROJECT=BENTO
       - URL_SRC=DUMMY
