@@ -17,31 +17,31 @@ fi
 
 read -p "use demo data [default=$USE_DEMO_DATA]: " user_data
   : ${user_data:=$USE_DEMO_DATA}; USE_DEMO_DATA_U=$user_data
-sed -i "s|USE_DEMO_DATA=$USE_DEMO_DATA|USE_DEMO_DATA=$USE_DEMO_DATA_U|" $configfile
+sed -i.bak "s|USE_DEMO_DATA=$USE_DEMO_DATA|USE_DEMO_DATA=$USE_DEMO_DATA_U|" $configfile
 
 read -p "set bento-backend repository [default=$BACKEND_REPO]: " user_data
   : ${user_data:=$BACKEND_REPO}; BACKEND_REPO_U=$user_data
-sed -i "s|BACKEND_REPO=$BACKEND_REPO|BACKEND_REPO=$BACKEND_REPO_U|" $configfile
+sed -i.bak "s|BACKEND_REPO=$BACKEND_REPO|BACKEND_REPO=$BACKEND_REPO_U|" $configfile
 
 read -p "set bento-backend branch [default=$BACKEND_BRANCH]: " user_data
   : ${user_data:=$BACKEND_BRANCH}; BACKEND_BRANCH_U=$user_data
-sed -i "s|BACKEND_BRANCH=$BACKEND_BRANCH|BACKEND_BRANCH=$BACKEND_BRANCH_U|" $configfile
+sed -i.bak "s|BACKEND_BRANCH=$BACKEND_BRANCH|BACKEND_BRANCH=$BACKEND_BRANCH_U|" $configfile
 
 read -p "set bento-frontend repository [default=$FRONTEND_REPO]: " user_data
   : ${user_data:=$FRONTEND_REPO}; FRONTEND_REPO_U=$user_data
-sed -i "s|FRONTEND_REPO=$FRONTEND_REPO|FRONTEND_REPO=$FRONTEND_REPO_U|" $configfile
+sed -i.bak "s|FRONTEND_REPO=$FRONTEND_REPO|FRONTEND_REPO=$FRONTEND_REPO_U|" $configfile
 
 read -p "set bento-frontend branch [default=$FRONTEND_BRANCH]: " user_data
   : ${user_data:=$FRONTEND_BRANCH}; FRONTEND_BRANCH_U=$user_data
-sed -i "s|FRONTEND_BRANCH=$FRONTEND_BRANCH|FRONTEND_BRANCH=$FRONTEND_BRANCH_U|" $configfile
+sed -i.bak "s|FRONTEND_BRANCH=$FRONTEND_BRANCH|FRONTEND_BRANCH=$FRONTEND_BRANCH_U|" $configfile
 
 read -p "set bento-model repository [default=$MODEL_REPO]: " user_data
   : ${user_data:=$MODEL_REPO}; MODEL_REPO_U=$user_data
-sed -i "s|MODEL_REPO=$MODEL_REPO|MODEL_REPO=$MODEL_REPO_U|" $configfile
+sed -i.bak "s|MODEL_REPO=$MODEL_REPO|MODEL_REPO=$MODEL_REPO_U|" $configfile
 
 read -p "set bento-model branch [default=$MODEL_BRANCH]: " user_data
   : ${user_data:=$MODEL_BRANCH}; MODEL_BRANCH_U=$user_data
-sed -i "s|MODEL_BRANCH=$MODEL_BRANCH|MODEL_BRANCH=$MODEL_BRANCH_U|" $configfile
+sed -i.bak "s|MODEL_BRANCH=$MODEL_BRANCH|MODEL_BRANCH=$MODEL_BRANCH_U|" $configfile
 
 echo ""
 
