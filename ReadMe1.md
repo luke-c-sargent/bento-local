@@ -48,7 +48,7 @@ To initialize Bento-Local, follow these steps:
     - Mac/Linux: ```sh ./init.sh```
     - Windows: ```init.bat```
  3. During script execution, you will be prompted with a few questions. If you're unsure, default values are provided as well:
-    - :grey_question: use demo data [default=yes]: (options are ``` yes | no ```)
+      :grey_question: use demo data [default=yes]: (options are ``` yes | no ```)
     - set bento-backend repository [default=https://github.com/CBIIT/bento-RI-backend.git]: 
     - set bento-backend branch [default=4.10.0]:
     - set bento-frontend repository [default=https://github.com/CBIIT/bento-frontend.git]:
@@ -56,5 +56,3 @@ To initialize Bento-Local, follow these steps:
     - set bento-model repository [default=https://github.com/CBIIT/BENTO-TAILORx-model.git]:
     - set bento-model branch [default=master]:
     > **Note**: Pressing the "return" key without providing any input will use the default value. 
-
-
