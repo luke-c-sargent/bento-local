@@ -11,34 +11,50 @@ The Bento-Local environment is designed to run directly within Docker on a userâ
 - Docker Desktop 
 
 ## Getting Started
-To Get started on Bento local here are few steps that needs to be performed. 
+To get started with Bento-Local, follow these steps:
 1. Clone or Download Bento-local Scripts. 
 2. Initalize Project. Which will clone specific versions and branches form github. 
 3. Build & Run Docker containers 
 
 
 ### 1. Cloning Bento-Local on the system. 
- - Clone "Bento-local" repositry using git on local system. When cloned using below command, git will clone master branch which always have most latest released version of bento. 
+Clone the "Bento-Local" repository to your local system using Git. The following command clones the master branch, which always contains the latest released version of Bento:
 ```
 git clone https://github.com/CBIIT/bento-local.git
 ```
-- Here is command to get Un-Released version or Older version of bento, 
+
+If you need an unreleased or older version of Bento, specify the branch or version number:
 ```
-// i.e git clone -b 4.0.0 https://github.com/CBIIT/bento-local.git
-//  OR git clone -b 3.9.0 https://github.com/CBIIT/bento-local.git
-git clone -b <Bento_Version> https://github.com/CBIIT/bento-local.git
+# Example for an unreleased version
+git clone -b 4.0.0 https://github.com/CBIIT/bento-local.git
+
+# Example for an older version
+git clone -b 3.9.0 https://github.com/CBIIT/bento-local.git
+```
+
+Change to the "bento-local" directory:
+```
 cd bento-local/
 ```
 
-### 2.Initalize Project
-> **Warning**
-> Initialization scripts are localtion specific, these script should be ran inside ``initialization/mac_linux`` or ``initialization/windows/`` directory only. Running scripts any location may not work. 
-To Initalize bento-local here are steps to follow, 
- 1.  Change Directory to Either of one location depending on Host Opreation system 
+### 2. Initalize Project
+> **Warning**: The initialization scripts are location-specific and should only be run inside the corresponding directory:  ``initialization/mac_linux`` for Mac/Linux or ``initialization/windows/`` for Windows. Running the scripts from any other location may not work.
+
+To initialize Bento-Local, follow these steps:
+ 1.  Change to the appropriate directory for your host operating system:
      - Mac/Linux: ```cd initialization/mac_linux/```
      - Windows: ```cd initialization/windows/```
- 2. Exacute initialization script,
+ 2. Execute the initialization script:
     - Mac/Linux: ```sh ./init.sh```
     - Windows: ```init.bat```
+ 3. During script execution, you will be prompted with a few questions. If you're unsure, default values are provided as well:
+    - :grey_question: use demo data [default=yes]: (options are ``` yes | no ```)
+    - set bento-backend repository [default=https://github.com/CBIIT/bento-RI-backend.git]: 
+    - set bento-backend branch [default=4.10.0]:
+    - set bento-frontend repository [default=https://github.com/CBIIT/bento-frontend.git]:
+    - set bento-frontend branch [default=4.0.0]:
+    - set bento-model repository [default=https://github.com/CBIIT/BENTO-TAILORx-model.git]:
+    - set bento-model branch [default=master]:
+    > **Note**: Pressing the "return" key without providing any input will use the default value. 
 
 
