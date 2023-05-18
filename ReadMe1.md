@@ -2,22 +2,22 @@
 
 The Bento-Local environment is designed to run directly within Docker on a user’s workstation. This allows users to create and deploy their local copy of Bento with minimal changes to their local environment and allows for a configuration that can be used with different workstation operating systems.
 
-## Requirements
+<!-- ## Requirements
 - Docker
 - Git
 - Admin or Sudo Access on the system on which bento-local is getting installed 
 
 ## Optional 
-- Docker Desktop 
+- Docker Desktop  -->
 
-## Getting Started
+# Getting Started
 To get started with Bento-Local, follow these steps:
-1. Clone or Download Bento-local Scripts. 
-2. Initalize Project. Which will clone specific versions and branches form github. 
+1. Clone or Download Bento-local Scripts
+2. Initalize Project
 3. Build & Run Docker containers 
 
 
-### 1. Cloning Bento-Local on the system. 
+## 1. Cloning Bento-Local on the system. 
 Clone the "Bento-Local" repository to your local system using Git. The following command clones the master branch, which always contains the latest released version of Bento:
 ```
 git clone https://github.com/CBIIT/bento-local.git
@@ -37,7 +37,7 @@ Change to the "bento-local" directory:
 cd bento-local/
 ```
 
-### 2. Initalize Project
+## 2. Initalize Project
 > **Warning**: The initialization scripts are location-specific and should only be run inside the corresponding directory:  ``initialization/mac_linux`` for Mac/Linux or ``initialization/windows/`` for Windows. Running the scripts from any other location may not work.
 
 To initialize Bento-Local, follow these steps:
@@ -56,3 +56,5 @@ To initialize Bento-Local, follow these steps:
     - set bento-model repository [default=https://github.com/CBIIT/BENTO-TAILORx-model.git]:
     - set bento-model branch [default=master]:
     > **Note**: Pressing the "return" key without providing any input will use the default value. 
+
+## 3. Build & Run Docker containers 
