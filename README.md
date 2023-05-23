@@ -16,6 +16,12 @@ To get started with Bento-Local, follow these steps:
 2. Initalize Project
 3. Build & Run Docker containers 
 
+> **Warning**: If you have previously cloned and initialized bento-local and wish to obtain a new build version of any service, it is essential to follow these steps:
+>  1. Stop all running containers associated with the services.
+>  2. Perform a Docker system prune to remove any unused containers, networks, or images.
+>  
+> For comprehensive instructions on changing the build version of the desired service, please refer to the "[Additional Steps > Changing Build version](#changing-build-version-of-either-of-the-services)" section.
+> Please ensure that you follow these steps carefully to avoid any conflicts or issues during the build process.
 
 ## 1. Cloning Bento-Local on the system. 
 Clone the "Bento-Local" repository to your local system using Git. The following command clones the master branch, which always contains the latest released version of Bento:
@@ -95,9 +101,9 @@ docker exec -it <CONTAINER_ID> /bin/sh
 # Additional Steps: 
 ## Changing Build version of either of the Services. 
 Here are few steps needs to be taken to jump between different build/versions of services (includes Bento-frontend and Bento-Backend)
-1. Stop the all container running [3.2](#32-rebuild-an-individual-container-you-can-use-the-following-command)
-2. Delete Container & Docker Images related to Service. 
-3. Run the build script from [3.1](#31-build-and-run-the-docker-containers-use-the-following-command)
+1. Stop the all running container. Refer [Section 3.3](#33-stop-all-running-bento-local-containers-use-the-following-command) under [ Build & Run Docker containers](#3-build--run-docker-containers)
+2. Perform a Docker system prune to remove any unused containers, networks, or images using [Cleaning Bento-Local Project](#cleaning-bento-local-project) steps.
+3. Run the build script from [Section 3.1](#31-build-and-run-the-docker-containers-use-the-following-command)
 
 ## Cleaning Bento-Local Project
 To remove the Docker cache and return your system to a clean state, you can use the following commands. It's important to note that these commands will only remove unused objects. If you want to completely remove all cached objects, you need to stop all running Docker containers by running docker-compose down first.
