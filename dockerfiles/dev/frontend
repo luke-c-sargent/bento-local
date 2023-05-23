@@ -48,7 +48,6 @@ ENV PROPERTY_FILE=config/props-bento-ext.yml
 
 # copy and prepare the frontend code
 RUN mkdir /usr/local/bento-frontend
-ADD ${FRONTEND_SOURCE_FOLDER} /usr/local/bento-frontend
 
 WORKDIR /usr/local/bento-frontend
 
