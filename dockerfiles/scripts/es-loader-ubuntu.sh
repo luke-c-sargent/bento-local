@@ -11,9 +11,9 @@ cp /tmp/es_indices_bento.yml /usr/local/icdc_dataloader/config/es_indices_bento.
 
 # update the neo4j credentials in the dataloader config file
 cp /usr/local/icdc_dataloader/config/es_loader.yml.j2 /usr/local/icdc_dataloader/config/es_loader_local.yml \
- && sed -i "s/\"{{ neo4j_password }}\"/$NEO4J_PASS/g" /usr/local/icdc_dataloader/config/es_loader_local.yml \
- && sed -i "s/{{neo4j_ip}}/$NEO4J_HOST/g" /usr/local/icdc_dataloader/config/es_loader_local.yml \
- && sed -i "s/{{ es_host }}/$ES_HOST/g" /usr/local/icdc_dataloader/config/es_loader_local.yml \
+ && sed -i "s|\"{{ neo4j_password }}\"|$NEO4J_PASS|g" /usr/local/icdc_dataloader/config/es_loader_local.yml \
+ && sed -i "s|{{neo4j_ip}}|$NEO4J_HOST|g" /usr/local/icdc_dataloader/config/es_loader_local.yml \
+ && sed -i "s|{{ es_host }}|$ES_HOST|g" /usr/local/icdc_dataloader/config/es_loader_local.yml \
  && sed -i "s|{{ about_file }}|$ABOUT_FILE|g" /usr/local/icdc_dataloader/config/es_loader_local.yml \
  && sed -i "s|{{ model_file1 }}|$MODEL_FILE1|g" /usr/local/icdc_dataloader/config/es_loader_local.yml \
  && sed -i "s|{{ model_file2 }}|$MODEL_FILE2|g" /usr/local/icdc_dataloader/config/es_loader_local.yml \

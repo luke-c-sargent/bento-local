@@ -1,25 +1,8 @@
-FROM node:15.13.0-buster-slim
+FROM node:16.20.0-buster-slim
 MAINTAINER ESI Devops Team
 
-# install dependencies
-RUN apt-get update && apt-get install -y python3 python3-pip git npm
-
-# Update to the latest npm
-RUN npm install npm@7.7.6 -g
-
+# set local vars
 ARG FRONTEND_SOURCE_FOLDER
-
-RUN mkdir /usr/local/bento-frontend
-
-COPY ${FRONTEND_SOURCE_FOLDER}/package.json /usr/local/bento-frontend
-COPY ${FRONTEND_SOURCE_FOLDER}/package-lock.json /usr/local/bento-frontend
-
-WORKDIR /usr/local/bento-frontend
-
-RUN npm install --legacy-peer-deps
-
-EXPOSE 3000
-
 ARG BACKEND_SOURCE_FOLDER
 ARG BENTO_DATA_MODEL
 ARG NEO4J_PASS
@@ -31,8 +14,12 @@ ENV NEO4J_HOST=${NEO4J_HOST}
 ARG ES_HOST
 ENV ES_HOST=${ES_HOST}
 
+# install dependencies
+RUN apt-get update && apt-get install -y python3 python3-pip git npm
+
+# install supporting code and scripts
 RUN echo "cloning dataloader code" \
- && git clone --single-branch --branch bento_local --recurse-submodules -j8 https://github.com/CBIIT/icdc-dataloader.git /usr/local/icdc_dataloader \
+ && git clone --single-branch --branch master --recurse-submodules -j8 https://github.com/CBIIT/icdc-dataloader.git /usr/local/icdc_dataloader \
  && cd /usr/local/icdc_dataloader \
  && pip3 install -r requirements.txt
 
@@ -52,11 +39,20 @@ COPY ${BACKEND_SOURCE_FOLDER}/src/main/resources/yaml/es_indices_bento.yml /tmp/
 
 COPY ${BENTO_DATA_MODEL}/model-desc/bento_tailorx_model_file.yaml /tmp/
 COPY ${BENTO_DATA_MODEL}/model-desc/bento_tailorx_model_properties.yaml /tmp/
-COPY ${FRONTEND_SOURCE_FOLDER}/src/content/dev/aboutPagesContent.yaml /tmp/
+COPY ${FRONTEND_SOURCE_FOLDER}/packages/bento-frontend/src/content/local/aboutPagesContent.yaml /tmp/
 
 ENV MODEL_FILE1=/tmp/bento_tailorx_model_file.yaml
 ENV MODEL_FILE2=/tmp/bento_tailorx_model_properties.yaml
 ENV ABOUT_FILE=/tmp/aboutPagesContent.yaml
 ENV PROPERTY_FILE=config/props-bento-ext.yml
 
-ENTRYPOINT [ "/bin/sh", "-c", "/tmp/wait-for-it.sh -t 0 $ES_HOST:9200 -- /tmp/es-loader-ubuntu.sh && npm run lint-fix && npm start" ]
+# copy and prepare the frontend code
+RUN mkdir /usr/local/bento-frontend
+
+WORKDIR /usr/local/bento-frontend
+
+#RUN npm install
+
+EXPOSE 3010
+
+ENTRYPOINT [ "/bin/sh", "-c", "/tmp/wait-for-it.sh -t 0 $ES_HOST:9200 -- /tmp/es-loader-ubuntu.sh && chown -R root:root /usr/local/bento-frontend && npm install && npx lerna run start" ]

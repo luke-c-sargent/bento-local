@@ -16,19 +16,33 @@ then
 fi
 
 read -p "use demo data [default=$USE_DEMO_DATA]: " user_data
-  : ${user_data:=$USE_DEMO_DATA}; USE_DEMO_DATA=$user_data
+  : ${user_data:=$USE_DEMO_DATA}; USE_DEMO_DATA_U=$user_data
+sed -i.bak "s|USE_DEMO_DATA=$USE_DEMO_DATA|USE_DEMO_DATA=$USE_DEMO_DATA_U|" $configfile
+
 read -p "set bento-backend repository [default=$BACKEND_REPO]: " user_data
-  : ${user_data:=$BACKEND_REPO}; BACKEND_REPO=$user_data
+  : ${user_data:=$BACKEND_REPO}; BACKEND_REPO_U=$user_data
+sed -i.bak "s|BACKEND_REPO=$BACKEND_REPO|BACKEND_REPO=$BACKEND_REPO_U|" $configfile
+
 read -p "set bento-backend branch [default=$BACKEND_BRANCH]: " user_data
-  : ${user_data:=$BACKEND_BRANCH}; BACKEND_BRANCH=$user_data
+  : ${user_data:=$BACKEND_BRANCH}; BACKEND_BRANCH_U=$user_data
+sed -i.bak "s|BACKEND_BRANCH=$BACKEND_BRANCH|BACKEND_BRANCH=$BACKEND_BRANCH_U|" $configfile
+
 read -p "set bento-frontend repository [default=$FRONTEND_REPO]: " user_data
-  : ${user_data:=$FRONTEND_REPO}; FRONTEND_REPO=$user_data
+  : ${user_data:=$FRONTEND_REPO}; FRONTEND_REPO_U=$user_data
+sed -i.bak "s|FRONTEND_REPO=$FRONTEND_REPO|FRONTEND_REPO=$FRONTEND_REPO_U|" $configfile
+
 read -p "set bento-frontend branch [default=$FRONTEND_BRANCH]: " user_data
-  : ${user_data:=$FRONTEND_BRANCH}; FRONTEND_BRANCH=$user_data
+  : ${user_data:=$FRONTEND_BRANCH}; FRONTEND_BRANCH_U=$user_data
+sed -i.bak "s|FRONTEND_BRANCH=$FRONTEND_BRANCH|FRONTEND_BRANCH=$FRONTEND_BRANCH_U|" $configfile
+
 read -p "set bento-model repository [default=$MODEL_REPO]: " user_data
-  : ${user_data:=$MODEL_REPO}; MODEL_REPO=$user_data
+  : ${user_data:=$MODEL_REPO}; MODEL_REPO_U=$user_data
+sed -i.bak "s|MODEL_REPO=$MODEL_REPO|MODEL_REPO=$MODEL_REPO_U|" $configfile
+
 read -p "set bento-model branch [default=$MODEL_BRANCH]: " user_data
-  : ${user_data:=$MODEL_BRANCH}; MODEL_BRANCH=$user_data
+  : ${user_data:=$MODEL_BRANCH}; MODEL_BRANCH_U=$user_data
+sed -i.bak "s|MODEL_BRANCH=$MODEL_BRANCH|MODEL_BRANCH=$MODEL_BRANCH_U|" $configfile
+
 echo ""
 
 if [[ -d "$projectPath/$BACKEND_SOURCE_FOLDER" ]]
@@ -36,8 +50,8 @@ then
   echo "The backend repository is already initialized in:  $projectPath/$BACKEND_SOURCE_FOLDER. Please remove this folder and re-initialize the project."
   echo ""
 else
-  echo "Cloning bento-backend repository:  $BACKEND_BRANCH branch"
-  git clone -b "$BACKEND_BRANCH" --single-branch "$BACKEND_REPO" "$projectPath/$BACKEND_SOURCE_FOLDER" &> /dev/null && echo "Created backend source folder: $projectPath/$BACKEND_SOURCE_FOLDER" || echo "ERROR CREATING BACKEND SOURCE FOLDER: $projectPath/$BACKEND_SOURCE_FOLDER - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL"
+  echo "Cloning bento-backend repository:  $BACKEND_BRANCH_U branch"
+  git clone --recursive -b "$BACKEND_BRANCH_U" --single-branch "$BACKEND_REPO_U" "$projectPath/$BACKEND_SOURCE_FOLDER" &> /dev/null && echo "Created backend source folder: $projectPath/$BACKEND_SOURCE_FOLDER" || echo "ERROR CREATING BACKEND SOURCE FOLDER: $projectPath/$BACKEND_SOURCE_FOLDER - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL"
   echo ""
 fi
 
@@ -46,9 +60,9 @@ then
   echo "The frontend repository is already initialized in:  $projectPath/$FRONTEND_SOURCE_FOLDER. Please remove this folder and re-initialize the project."
   echo ""
 else
-  echo "Cloning bento-frontend repository:  $FRONTEND_BRANCH branch"
+  echo "Cloning bento-frontend repository:  $FRONTEND_BRANCH_U branch"
   if [[ -d "$projectPath/$FRONTEND_SOURCE_FOLDER" ]]; then rm -rf $projectPath/$FRONTEND_SOURCE_FOLDER; fi
-  git clone -b "$FRONTEND_BRANCH" --single-branch "$FRONTEND_REPO" "$projectPath/$FRONTEND_SOURCE_FOLDER" &> /dev/null && echo "Created frontend source folder: $projectPath/$FRONTEND_SOURCE_FOLDER" || echo "ERROR CREATING FRONTEND SOURCE FOLDER: $projectPath/$FRONTEND_SOURCE_FOLDER - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL"
+  git clone -b "$FRONTEND_BRANCH_U" --single-branch "$FRONTEND_REPO_U" "$projectPath/$FRONTEND_SOURCE_FOLDER" &> /dev/null && echo "Created frontend source folder: $projectPath/$FRONTEND_SOURCE_FOLDER" || echo "ERROR CREATING FRONTEND SOURCE FOLDER: $projectPath/$FRONTEND_SOURCE_FOLDER - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE BUILDING BENTO-LOCAL"
   echo ""
 fi
 
@@ -57,12 +71,12 @@ then
   echo "The data model repository is already initialized in:  $projectPath/$BENTO_DATA_MODEL. Please remove this folder and re-initialize the project."
   echo ""
 else
-  echo "Cloning bento-model repository:  $MODEL_BRANCH branch"
-  git clone -b "$MODEL_BRANCH" --single-branch "$MODEL_REPO" "$projectPath/$BENTO_DATA_MODEL" &> /dev/null && echo "Created model folder: $projectPath/$BENTO_DATA_MODEL" || echo "ERROR CREATING BENTO MODEL FOLDER: $projectPath/$BENTO_DATA_MODEL - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE RUNNING THE BENTO DATALOADER"
+  echo "Cloning bento-model repository:  $MODEL_BRANCH_U branch"
+  git clone -b "$MODEL_BRANCH_U" --single-branch "$MODEL_REPO_U" "$projectPath/$BENTO_DATA_MODEL" &> /dev/null && echo "Created model folder: $projectPath/$BENTO_DATA_MODEL" || echo "ERROR CREATING BENTO MODEL FOLDER: $projectPath/$BENTO_DATA_MODEL - PLEASE VERIFY THAT THIS FOLDER EXISTS BEFORE RUNNING THE BENTO DATALOADER"
   echo ""
 fi
 
-if [[ $USE_DEMO_DATA == "yes" ]]
+if [[ $USE_DEMO_DATA_U == "yes" ]]
 then
   if [[ -d "$projectPath/data" ]]
   then
